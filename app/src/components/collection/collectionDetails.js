@@ -26,6 +26,21 @@ class CollectionDetails extends Component {
     }
 
   render() {
+    var pic = <View />;
+    if (this.state.pushEvent.pic) {
+      pic = <Image
+                source={{uri: this.state.pushEvent.pic}}
+                resizeMode='stretch'
+                style={styles.img}
+            />
+    } else {
+      pic = <Image
+                source={require('../../../no-img.png')}
+                resizeMode='stretch'
+                style={styles.img}
+            />
+    }
+
     return (
       <ScrollView>
         <View style={{
@@ -35,16 +50,7 @@ class CollectionDetails extends Component {
             alignItems: 'center'
         }}>
 
-        <Image
-           source={{uri: this.state.pushEvent.pic}}
-           resizeMode='stretch'
-           style={{
-              height: 300,
-              width: 270,
-              borderRadius: 20,
-              margin: 0
-             }}
-         />
+          {pic}
 
           <Text style={styles.welcome}>
             {this.state.pushEvent.name}
@@ -73,6 +79,12 @@ class CollectionDetails extends Component {
 }
 
 const styles = StyleSheet.create({
+    img: {
+      height: 300,
+      width: 270,
+      borderRadius: 20,
+      margin: 0
+    },
     AppContainer: {
       flex: 1,
       justifyContent: 'center',

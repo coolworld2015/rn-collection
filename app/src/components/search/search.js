@@ -100,10 +100,6 @@ class Search extends Component {
         this.props.navigator.push({
             title: this.state.searchQuery,
             component: SearchResults,
-            rightButtonTitle: 'Cancel',
-            onRightButtonPress: () => {
-                this.props.navigator.pop()
-            },
             passProps: {
                 searchQuery: this.state.searchQuery
             }

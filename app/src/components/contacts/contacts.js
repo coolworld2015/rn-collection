@@ -218,10 +218,10 @@ const styles = StyleSheet.create({
       backgroundColor: 'whitesmoke'
     },
     img: {
-      height: 125,
-      width: 105,
+      height: 110,
+      width: 100,
       borderRadius: 20,
-      margin: 20
+      margin: 15
     },
     error: {
       color: 'red',

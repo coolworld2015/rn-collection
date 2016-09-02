@@ -220,13 +220,13 @@ const styles = StyleSheet.create({
       height: 100,
       width: 100,
       borderRadius: 20,
-      margin: 20
+      margin: 15
     },
     img1: {
       height: 100,
       width: 100,
       borderRadius: 5,
-      margin: 20
+      margin: 15
     },
     error: {
       color: 'red',
