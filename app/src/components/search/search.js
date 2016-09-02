@@ -16,7 +16,7 @@ import {
     TextInput
 } from 'react-native';
 
-import Collection from './collection';
+import SearchResults from './searchResults';
 
 class Search extends Component {
     constructor(props){
@@ -99,7 +99,7 @@ class Search extends Component {
 
         this.props.navigator.push({
             title: this.state.searchQuery,
-            component: Movies,
+            component: SearchResults,
             rightButtonTitle: 'Cancel',
             onRightButtonPress: () => {
                 this.props.navigator.pop()

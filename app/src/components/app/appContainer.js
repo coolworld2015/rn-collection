@@ -17,7 +17,7 @@ import {
 } from 'react-native';
 
 import Collection from '../collection/collection';
-import Search from '../collection/search';
+import Search from '../search/search';
 import Contacts from '../contacts/contacts';
 
 class AppContainer extends Component {

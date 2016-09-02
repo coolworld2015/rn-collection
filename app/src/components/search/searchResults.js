@@ -16,9 +16,9 @@ import {
     TextInput
 } from 'react-native';
 
-import CollectionDetails from './collectionDetails';
+import CollectionDetails from '../collection/collectionDetails';
 
-class Collection extends Component {
+class SearchResults extends Component {
     constructor(props){
         super(props);
 
@@ -36,15 +36,15 @@ class Collection extends Component {
     }
 
     getCollection(){
-       fetch('http://ui-collection.herokuapp.com/api/items/get', {
-            method: 'get',
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json'
-            }
+      console.log(this.state.searchQuery);
+       fetch('http://ui-collection.herokuapp.com/api/items/findByName/'
+            + this.state.searchQuery, {
+            method: 'get'
           })
           .then((response)=> response.json())
           .then((responseData)=> {
+            console.log(responseData);
+
              this.setState({
                dataSource: this.state.dataSource.cloneWithRows(responseData),
                resultsCount: responseData.length,
@@ -53,6 +53,7 @@ class Collection extends Component {
 
        })
          .catch((error)=> {
+           console.log(error);
              this.setState({
                serverError: true
              });
@@ -75,16 +76,30 @@ class Collection extends Component {
     }
 
     renderRow(rowData){
+      var pic = <View />;
+      if (rowData.pic) {
+        pic = <Image
+                  source={{uri: rowData.pic}}
+                  resizeMode='stretch'
+                  style={styles.img}
+              />
+      } else {
+        pic = <Image
+                  source={require('../../../no-img.png')}
+                  resizeMode='stretch'
+                  style={styles.img1}
+              />
+      }
+
         return (
           	<TouchableHighlight
                 onPress={()=> this.pressRow(rowData)}
                 underlayColor='#ddd'
           	>
             <View style={styles.imgsList}>
-              <Image
-                  source={{uri: rowData.pic}}
-                  style={styles.img}
-              />
+
+                {pic}
+
                 <View style={{
                    flex: 1,
                    flexDirection: 'column',
@@ -207,6 +222,12 @@ const styles = StyleSheet.create({
       borderRadius: 20,
       margin: 20
     },
+    img1: {
+      height: 100,
+      width: 100,
+      borderRadius: 5,
+      margin: 20
+    },
     error: {
       color: 'red',
       paddingTop: 10,
@@ -214,4 +235,4 @@ const styles = StyleSheet.create({
     }
 });
 
-module.exports = Collection;
+module.exports = SearchResults;

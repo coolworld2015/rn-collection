@@ -36,14 +36,15 @@ class ContactDetails extends Component {
         }}>
 
        <Image
-        source={{uri: this.state.pushEvent.pic}}
-        style={{
-           height: 300,
-           width: 200,
-           borderRadius: 20,
-           margin: 20
-          }}
-      />
+          source={{uri: this.state.pushEvent.pic}}
+          resizeMode='stretch'
+          style={{
+             height: 300,
+             width: 270,
+             borderRadius: 20,
+             margin: 0
+            }}
+        />
 
           <Text style={styles.welcome}>
             {this.state.pushEvent.name}

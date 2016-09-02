@@ -98,15 +98,17 @@ console.log(props);
               <Image
                   source={{uri: rowData.pic}}
                   style={styles.img}
+                  resizeMode='stretch'
               />
                 <View style={{
-                             flex: 1,
-                             flexDirection: 'column',
-                             justifyContent: 'space-between'
-                            }}>
-                    <Text>{rowData.name}</Text>
+                   flex: 1,
+                   flexDirection: 'column',
+                   justifyContent: 'space-between'
+                  }}>
 
-              </View>
+                <Text>{rowData.name}</Text>
+
+                </View>
             </View>
           </TouchableHighlight>
         );
@@ -216,8 +218,8 @@ const styles = StyleSheet.create({
       backgroundColor: 'whitesmoke'
     },
     img: {
-      height: 95,
-      width: 75,
+      height: 125,
+      width: 105,
       borderRadius: 20,
       margin: 20
     },
