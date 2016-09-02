@@ -68,10 +68,6 @@ class Collection extends Component {
         this.props.navigator.push({
             title: rowData.trackName,
             component: CollectionDetails,
-            rightButtonTitle: 'Cancel',
-            onRightButtonPress: () => {
-                this.props.navigator.pop()
-            },
             passProps: {
                 pushEvent: rowData
             }

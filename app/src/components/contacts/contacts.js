@@ -16,7 +16,7 @@ import {
     TextInput
 } from 'react-native';
 
-//import ContactDetails from './contactDetails';
+import ContactDetails from './contactDetails';
 
 class Contacts extends Component {
     constructor(props){
@@ -81,11 +81,7 @@ console.log(props);
     pressRow(rowData){
         this.props.navigator.push({
             title: rowData.trackName,
-            component: MoviesDetails,
-            rightButtonTitle: 'Cancel',
-            onRightButtonPress: () => {
-                this.props.navigator.pop()
-            },
+            component: ContactDetails,
             passProps: {
                 pushEvent: rowData
             }

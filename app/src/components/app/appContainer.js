@@ -25,7 +25,7 @@ class AppContainer extends Component {
         super(props);
 
         this.state = {
-            selectedTab: 'Collection'
+            selectedTab: 'Contacts'
         }
     }
 
