@@ -16,7 +16,7 @@ import {
     TextInput
 } from 'react-native';
 
-import Movies from './movies';
+import Collection from './collection';
 
 class Search extends Component {
     constructor(props){

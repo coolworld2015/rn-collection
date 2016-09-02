@@ -16,16 +16,16 @@ import {
     TextInput
 } from 'react-native';
 
-import Search from '../movies/search';
-import Movies from '../movies/movies';
+import Collection from '../collection/collection';
+import Search from '../collection/search';
+import Contacts from '../contacts/contacts';
 
 class AppContainer extends Component {
     constructor(props){
         super(props);
 
         this.state = {
-            selectedTab: 'Movies',
-            searchQuery: 'Sex'
+            selectedTab: 'Collection'
         }
     }
 
@@ -35,26 +35,23 @@ class AppContainer extends Component {
         <TabBarIOS style={styles.AppContainer}>
 
         <TabBarIOS.Item
-            title="Movies"
+            title="Collection"
             systemIcon="favorites"
-            selected={this.state.selectedTab == 'Movies'}
-            onPress={()=> this.setState({selectedTab: 'Movies'})}>
+            selected={this.state.selectedTab == 'Collection'}
+            onPress={()=> this.setState({selectedTab: 'Collection'})}>
 
             <NavigatorIOS
                 style={{
                     flex: 1
                 }}
                 initialRoute={{
-                    component: Movies,
-                    title: 'Movies',
-                    passProps: {
-                        searchQuery: 'Sex'
-                    }
+                    component: Collection,
+                    title: 'Collection'
                 }}
            />
         </TabBarIOS.Item>
 
-            <TabBarIOS.Item
+        <TabBarIOS.Item
                 title="Search"
       					systemIcon="search"
                 selected={this.state.selectedTab == 'Search'}
@@ -67,6 +64,23 @@ class AppContainer extends Component {
                     initialRoute={{
                         component: Search,
                         title: 'Search'
+                		}}
+               />
+            </TabBarIOS.Item>
+
+        <TabBarIOS.Item
+                title="Contacts"
+      					systemIcon="contacts"
+                selected={this.state.selectedTab == 'Contacts'}
+                onPress={()=> this.setState({selectedTab: 'Contacts'})}>
+
+                <NavigatorIOS
+                    style={{
+                        flex: 1
+                    }}
+                    initialRoute={{
+                        component: Contacts,
+                        title: 'Contacts'
                 		}}
                />
             </TabBarIOS.Item>

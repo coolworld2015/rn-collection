@@ -16,9 +16,9 @@ import {
     TextInput
 } from 'react-native';
 
-import MoviesDetails from './moviesDetails';
+import CollectionDetails from './collectionDetails';
 
-class Movies extends Component {
+class Collection extends Component {
     constructor(props){
         super(props);
 
@@ -34,12 +34,11 @@ console.log(props);
 						resultsCount: 0
         };
 
-      	this.getMovies();
+      	this.getCollection();
     }
 
-    getMovies(){
-       fetch('https://itunes.apple.com/search?media=movie&term='
-             + this.state.searchQuery, {
+    getCollection(){
+       fetch('http://ui-collection.herokuapp.com/api/items/get', {
             method: 'get',
             headers: {
               'Accept': 'application/json',
@@ -48,18 +47,13 @@ console.log(props);
           })
           .then((response)=> response.json())
           .then((responseData)=> {
-						 console.log(responseData.results)
+
              this.setState({
-               dataSource: this.state.dataSource.cloneWithRows(responseData.results),
-               resultsCount: responseData.results.length,
-               responseData: responseData.results
+               dataSource: this.state.dataSource.cloneWithRows(responseData),
+               resultsCount: responseData.length,
+               responseData: responseData
              });
-         /*
-         this.props.navigator.replace({
-               component: Movies,
-               title: this.state.resultsCount
-             });
-				*/
+
        })
          .catch((error)=> {
              this.setState({
@@ -95,7 +89,7 @@ console.log(props);
           	>
             <View style={styles.imgsList}>
               <Image
-                  source={{uri: rowData.artworkUrl100.replace('100x100bb.jpg', '500x500bb.jpg')}}
+                  source={{uri: rowData.pic}}
                   style={styles.img}
               />
                 <View style={{
@@ -103,11 +97,8 @@ console.log(props);
                              flexDirection: 'column',
                              justifyContent: 'space-between'
                             }}>
-                    <Text>{rowData.trackName}</Text>
-              			<Text>{rowData.releaseDate.split('-')[0]}</Text>
-                    <Text>{rowData.country}</Text>
-                    <Text>{rowData.primaryGenreName}</Text>
-                    <Text>{rowData.artistName}</Text>
+                    <Text>{rowData.name}</Text>
+
               </View>
             </View>
           </TouchableHighlight>
@@ -217,4 +208,4 @@ const styles = StyleSheet.create({
     }
 });
 
-module.exports = Movies;
+module.exports = Collection;

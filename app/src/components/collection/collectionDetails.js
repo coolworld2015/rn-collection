@@ -16,7 +16,7 @@ import {
     TextInput
 } from 'react-native';
 
-class MoviesDetails extends Component {
+class CollectionDetails extends Component {
     constructor(props){
         super(props);
 
@@ -140,4 +140,4 @@ const styles = StyleSheet.create({
     }
 });
 
-module.exports = MoviesDetails;
+module.exports = CollectionDetails;
