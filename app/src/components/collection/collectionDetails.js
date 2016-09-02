@@ -36,7 +36,7 @@ class CollectionDetails extends Component {
         }}>
 
        <Image
-        source={{uri: this.state.pushEvent.artworkUrl100.replace('100x100bb.jpg', '500x500bb.jpg')}}
+        source={{uri: this.state.pushEvent.pic}}
         style={{
            height: 300,
            width: 200,
@@ -46,31 +46,23 @@ class CollectionDetails extends Component {
       />
 
           <Text style={styles.welcome}>
-            {this.state.pushEvent.trackName}
+            {this.state.pushEvent.name}
           </Text>
 
           <Text style={styles.welcome}>
-            {this.state.pushEvent.releaseDate.split('-')[0]}
+            {this.state.pushEvent.group}
           </Text>
 
           <Text style={styles.welcome}>
-            {this.state.pushEvent.country}
+            {this.state.pushEvent.category}
           </Text>
 
           <Text style={styles.welcome}>
-            {this.state.pushEvent.primaryGenreName}
+            ID: {this.state.pushEvent.id}
           </Text>
 
           <Text style={styles.welcome}>
-            {this.state.pushEvent.artistName}
-          </Text>
-
-          <Text style={{
-            fontSize: 16,
-            padding: 20,
-            textAlign: 'justify'
-          }}>
-            {this.state.pushEvent.longDescription}
+            {this.state.pushEvent.description}
           </Text>
 
         </View>

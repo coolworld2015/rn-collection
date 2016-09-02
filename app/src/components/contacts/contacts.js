@@ -34,11 +34,11 @@ console.log(props);
 						resultsCount: 0
         };
 
-      	this.getCollection();
+      	this.getContacts();
     }
 
-    getCollection(){
-       fetch('http://ui-collection.herokuapp.com/api/items/get', {
+    getContacts(){
+       fetch('http://ui-collection.herokuapp.com/api/clients/get', {
             method: 'get',
             headers: {
               'Accept': 'application/json',
@@ -49,9 +49,9 @@ console.log(props);
           .then((responseData)=> {
 
              this.setState({
-               dataSource: this.state.dataSource.cloneWithRows(responseData),
+               dataSource: this.state.dataSource.cloneWithRows(responseData.sort(this.sort)),
                resultsCount: responseData.length,
-               responseData: responseData
+               responseData: responseData.sort(this.sort)
              });
 
        })
@@ -65,6 +65,17 @@ console.log(props);
              showProgress: false
            });
  				});
+    }
+
+    sort(a, b) {
+        var nameA = a.name.toLowerCase(), nameB = b.name.toLowerCase();
+        if (nameA < nameB) {
+            return -1
+        }
+        if (nameA > nameB) {
+            return 1
+        }
+        return 0;
     }
 
     pressRow(rowData){
@@ -105,6 +116,17 @@ console.log(props);
         );
     }
 
+    refreshData(event){
+      if (event.nativeEvent.contentOffset.y <= -100) {
+
+        this.setState({
+            showProgress: true,
+            resultsCount: event.nativeEvent.contentOffset.y
+        });
+        setTimeout(() => {this.getContacts()}, 300);
+      }
+    }
+
     render(){
       var errorCtrl = <View />;
 
@@ -140,7 +162,7 @@ console.log(props);
           				}}
               onChangeText={(text)=> {
                   var arr = [].concat(this.state.responseData);
-                  var items = arr.filter((el) => el.trackName.indexOf(text) >= 0);
+                  var items = arr.filter((el) => el.name.indexOf(text) >= 0);
                   this.setState({
                      dataSource: this.state.dataSource.cloneWithRows(items),
                      resultsCount: items.length,
@@ -153,7 +175,9 @@ console.log(props);
 
             </View>
 
-          <ScrollView style={{marginTop: 0, marginBottom: 0}}>
+          <ScrollView
+              onScroll={this.refreshData.bind(this)} scrollEventThrottle={16}
+              style={{marginTop: 0, marginBottom: 0}}>
             <ListView
               dataSource={this.state.dataSource}
               renderRow={this.renderRow.bind(this)}

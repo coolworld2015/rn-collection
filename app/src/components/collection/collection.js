@@ -25,10 +25,8 @@ class Collection extends Component {
         var ds = new ListView.DataSource({
             rowHasChanged: (r1, r2) => r1 != r2
         });
-console.log(props);
         this.state = {
             dataSource: ds.cloneWithRows([]),
-            //searchQuery: 'Sex',
             searchQuery: props.searchQuery,
             showProgress: true,
 						resultsCount: 0
@@ -47,7 +45,6 @@ console.log(props);
           })
           .then((response)=> response.json())
           .then((responseData)=> {
-
              this.setState({
                dataSource: this.state.dataSource.cloneWithRows(responseData),
                resultsCount: responseData.length,
@@ -70,7 +67,7 @@ console.log(props);
     pressRow(rowData){
         this.props.navigator.push({
             title: rowData.trackName,
-            component: MoviesDetails,
+            component: CollectionDetails,
             rightButtonTitle: 'Cancel',
             onRightButtonPress: () => {
                 this.props.navigator.pop()
@@ -93,16 +90,28 @@ console.log(props);
                   style={styles.img}
               />
                 <View style={{
-                             flex: 1,
-                             flexDirection: 'column',
-                             justifyContent: 'space-between'
-                            }}>
+                   flex: 1,
+                   flexDirection: 'column',
+                   justifyContent: 'space-between'
+                }}>
                     <Text>{rowData.name}</Text>
-
+                    <Text>{rowData.group}</Text>
+                    <Text>{rowData.category}</Text>
               </View>
             </View>
           </TouchableHighlight>
         );
+    }
+
+    refreshData(event){
+      if (event.nativeEvent.contentOffset.y <= -100) {
+
+        this.setState({
+            showProgress: true,
+            resultsCount: event.nativeEvent.contentOffset.y
+        });
+        setTimeout(() => {this.getCollection()}, 300);
+      }
     }
 
     render(){
@@ -140,7 +149,7 @@ console.log(props);
           				}}
               onChangeText={(text)=> {
                   var arr = [].concat(this.state.responseData);
-                  var items = arr.filter((el) => el.trackName.indexOf(text) >= 0);
+                  var items = arr.filter((el) => el.name.indexOf(text) >= 0);
                   this.setState({
                      dataSource: this.state.dataSource.cloneWithRows(items),
                      resultsCount: items.length,
@@ -153,7 +162,9 @@ console.log(props);
 
             </View>
 
-          <ScrollView style={{marginTop: 0, marginBottom: 0}}>
+            <ScrollView
+                onScroll={this.refreshData.bind(this)} scrollEventThrottle={16}
+                style={{marginTop: 0, marginBottom: 0}}>
             <ListView
               dataSource={this.state.dataSource}
               renderRow={this.renderRow.bind(this)}
@@ -170,7 +181,6 @@ console.log(props);
       )
 	}
 }
-
 
 const styles = StyleSheet.create({
     imgsList: {

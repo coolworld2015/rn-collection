@@ -50,7 +50,7 @@ class Search extends Component {
           			<TouchableHighlight
                     onPress={this.clearSearch.bind(this)}
                     style={styles.button}>
-                    <Text style={styles.buttonText}>Search movies</Text>
+                    <Text style={styles.buttonText}>Search collection</Text>
                 </TouchableHighlight>
           			<TextInput
                     onChangeText={(text)=> this.setState({
@@ -59,7 +59,7 @@ class Search extends Component {
                     })}
                     value={this.state.searchQuery}
                     style={styles.loginInput}
-                    placeholder="Search movies">
+                    placeholder="Search collection">
                 </TextInput>
 
                 {validCtrl}
