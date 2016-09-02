@@ -80,7 +80,7 @@ console.log(props);
 
     pressRow(rowData){
         this.props.navigator.push({
-            title: rowData.trackName,
+            title: rowData.name,
             component: ContactDetails,
             passProps: {
                 pushEvent: rowData

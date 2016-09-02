@@ -66,7 +66,7 @@ class Collection extends Component {
 
     pressRow(rowData){
         this.props.navigator.push({
-            title: rowData.trackName,
+            title: rowData.name,
             component: CollectionDetails,
             passProps: {
                 pushEvent: rowData
