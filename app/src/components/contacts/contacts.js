@@ -149,23 +149,23 @@ console.log(props);
         return (
           <View style={{flex: 1, justifyContent: 'center'}}>
             <View style={{marginTop: 60}}>
-              <TextInput style={{
-                  height: 45,
-                  marginTop: 5,
-                  padding: 5,
-                  backgroundColor: 'white',
-                  borderWidth: 1,
-                  borderColor: 'lightgray',
-                  borderRadius: 0,
-          				}}
-              onChangeText={(text)=> {
-                  var arr = [].concat(this.state.responseData);
-                  var items = arr.filter((el) => el.name.indexOf(text) >= 0);
-                  this.setState({
-                     dataSource: this.state.dataSource.cloneWithRows(items),
-                     resultsCount: items.length,
-                  })
-                }}
+				 <TextInput style={{
+					  height: 45,
+					  marginTop: 4,
+					  padding: 5,
+					  backgroundColor: 'white',
+					  borderWidth: 3,
+					  borderColor: 'lightgray',
+					  borderRadius: 0,
+					}}
+					onChangeText={(text)=> {
+					  var arr = [].concat(this.state.responseData);
+					  var items = arr.filter((el) => el.name.indexOf(text) >= 0);
+					  this.setState({
+						 dataSource: this.state.dataSource.cloneWithRows(items),
+						 resultsCount: items.length,
+					  })
+					}}
                 placeholder="Search">
               </TextInput>
 
