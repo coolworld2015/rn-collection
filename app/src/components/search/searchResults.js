@@ -46,9 +46,9 @@ class SearchResults extends Component {
             console.log(responseData);
 
              this.setState({
-               dataSource: this.state.dataSource.cloneWithRows(responseData),
+               dataSource: this.state.dataSource.cloneWithRows(responseData.sort(this.sort)),
                resultsCount: responseData.length,
-               responseData: responseData
+               responseData: responseData.sort(this.sort)
              });
 
        })
@@ -63,6 +63,17 @@ class SearchResults extends Component {
              showProgress: false
            });
  				});
+    }
+
+    sort(a, b) {
+        var nameA = a.name.toLowerCase(), nameB = b.name.toLowerCase();
+        if (nameA < nameB) {
+            return -1
+        }
+        if (nameA > nameB) {
+            return 1
+        }
+        return 0;
     }
 
     pressRow(rowData){
@@ -150,14 +161,14 @@ class SearchResults extends Component {
           <View style={{flex: 1, justifyContent: 'center'}}>
             <View style={{marginTop: 60}}>
               <TextInput style={{
-                  height: 45,
-                  marginTop: 5,
-                  padding: 5,
-                  backgroundColor: 'white',
-                  borderWidth: 1,
-                  borderColor: 'lightgray',
-                  borderRadius: 0,
-          				}}
+     					  height: 45,
+     					  marginTop: 4,
+     					  padding: 5,
+     					  backgroundColor: 'white',
+     					  borderWidth: 3,
+     					  borderColor: 'lightgray',
+     					  borderRadius: 0,
+     					}}
               onChangeText={(text)=> {
                   var arr = [].concat(this.state.responseData);
                   var items = arr.filter((el) => el.name.indexOf(text) >= 0);
