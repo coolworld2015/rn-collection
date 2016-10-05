@@ -1,6 +1,6 @@
-'use strict'
+'use strict';
 
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
     AppRegistry,
     StyleSheet,
@@ -21,7 +21,7 @@ import Search from '../search/search';
 import Contacts from '../contacts/contacts';
 
 class AppContainer extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
 
         this.state = {
@@ -29,94 +29,94 @@ class AppContainer extends Component {
         }
     }
 
-    render(){
+    render() {
 
-      return (
-        <TabBarIOS style={styles.AppContainer}>
+        return (
+            <TabBarIOS style={styles.AppContainer}>
 
-        <TabBarIOS.Item
-            title="Collection"
-            systemIcon="favorites"
-            selected={this.state.selectedTab == 'Collection'}
-            onPress={()=> this.setState({selectedTab: 'Collection'})}>
+                <TabBarIOS.Item
+                    title="Collection"
+                    systemIcon="favorites"
+                    selected={this.state.selectedTab == 'Collection'}
+                    onPress={()=> this.setState({selectedTab: 'Collection'})}>
 
-            <NavigatorIOS
-                style={{
-                    flex: 1
-                }}
-                initialRoute={{
-                    component: Collection,
-                    title: 'Collection'
-                }}
-           />
-        </TabBarIOS.Item>
+                    <NavigatorIOS
+                        style={{
+                            flex: 1
+                        }}
+                        initialRoute={{
+                            component: Collection,
+                            title: 'Collection'
+                        }}
+                    />
+                </TabBarIOS.Item>
 
-        <TabBarIOS.Item
-                title="Search"
-      					systemIcon="search"
-                selected={this.state.selectedTab == 'Search'}
-                onPress={()=> this.setState({selectedTab: 'Search'})}>
+                <TabBarIOS.Item
+                    title="Search"
+                    systemIcon="search"
+                    selected={this.state.selectedTab == 'Search'}
+                    onPress={()=> this.setState({selectedTab: 'Search'})}>
 
-                <NavigatorIOS
-                    style={{
-                        flex: 1
-                    }}
-                    initialRoute={{
-                        component: Search,
-                        title: 'Search'
-                		}}
-               />
-            </TabBarIOS.Item>
+                    <NavigatorIOS
+                        style={{
+                            flex: 1
+                        }}
+                        initialRoute={{
+                            component: Search,
+                            title: 'Search'
+                        }}
+                    />
+                </TabBarIOS.Item>
 
-        <TabBarIOS.Item
-                title="Contacts"
-      					systemIcon="contacts"
-                selected={this.state.selectedTab == 'Contacts'}
-                onPress={()=> this.setState({selectedTab: 'Contacts'})}>
+                <TabBarIOS.Item
+                    title="Contacts"
+                    systemIcon="contacts"
+                    selected={this.state.selectedTab == 'Contacts'}
+                    onPress={()=> this.setState({selectedTab: 'Contacts'})}>
 
-                <NavigatorIOS
-                    style={{
-                        flex: 1
-                    }}
-                    initialRoute={{
-                        component: Contacts,
-                        title: 'Contacts'
-                		}}
-               />
-            </TabBarIOS.Item>
+                    <NavigatorIOS
+                        style={{
+                            flex: 1
+                        }}
+                        initialRoute={{
+                            component: Contacts,
+                            title: 'Contacts'
+                        }}
+                    />
+                </TabBarIOS.Item>
 
-        </TabBarIOS>
-      );
+            </TabBarIOS>
+        );
     }
 }
 
 /*
-systemIcon List:
-bookmarks
-contacts
-downloads
-favorites
-featured
-history
-more
-"most-recent"
-"most-viewed"
-recents
-search
-"top-rated"
-*/
+ systemIcon List:
+ bookmarks
+ contacts
+ downloads
+ favorites
+ featured
+ history
+ more
+ "most-recent"
+ "most-viewed"
+ recents
+ search
+ "top-rated"
+ */
 
 const styles = StyleSheet.create({
     AppContainer: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: '#F5FCFF',
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#F5FCFF',
     },
     welcome: {
-      fontSize: 20,
-      textAlign: 'center',
-      margin: 20,
+        fontSize: 20,
+        textAlign: 'center',
+        margin: 20,
     },
     container: {
         backgroundColor: '#F5FCFF',
@@ -167,4 +167,4 @@ const styles = StyleSheet.create({
     }
 });
 
-module.exports = AppContainer;
+export default AppContainer;

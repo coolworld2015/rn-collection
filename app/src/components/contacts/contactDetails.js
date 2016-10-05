@@ -1,6 +1,6 @@
-'use strict'
+'use strict';
 
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
     AppRegistry,
     StyleSheet,
@@ -17,7 +17,7 @@ import {
 } from 'react-native';
 
 class ContactDetails extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
 
         this.state = {
@@ -25,56 +25,56 @@ class ContactDetails extends Component {
         };
     }
 
-  render() {
-    return (
-      <ScrollView>
-        <View style={{
-            flex: 1,
-            paddingTop: 20,
-            justifyContent: 'flex-start',
-            alignItems: 'center'
-        }}>
+    render() {
+        return (
+            <ScrollView>
+                <View style={{
+                    flex: 1,
+                    paddingTop: 20,
+                    justifyContent: 'flex-start',
+                    alignItems: 'center'
+                }}>
 
-       <Image
-          source={{uri: this.state.pushEvent.pic}}
-          resizeMode='stretch'
-          style={{
-             height: 300,
-             width: 270,
-             borderRadius: 20,
-             margin: 0
-            }}
-        />
+                    <Image
+                        source={{uri: this.state.pushEvent.pic}}
+                        resizeMode='stretch'
+                        style={{
+                            height: 300,
+                            width: 270,
+                            borderRadius: 20,
+                            margin: 0
+                        }}
+                    />
 
-          <Text style={styles.welcome}>
-            {this.state.pushEvent.name}
-          </Text>
+                    <Text style={styles.welcome}>
+                        {this.state.pushEvent.name}
+                    </Text>
 
-          <Text style={styles.welcome}>
-            ID: {this.state.pushEvent.id}
-          </Text>
+                    <Text style={styles.welcome}>
+                        ID: {this.state.pushEvent.id}
+                    </Text>
 
-          <Text style={styles.welcome}>
-            {this.state.pushEvent.description}
-          </Text>
+                    <Text style={styles.welcome}>
+                        {this.state.pushEvent.description}
+                    </Text>
 
-        </View>
-      </ScrollView>
-    );
-  }
+                </View>
+            </ScrollView>
+        );
+    }
 }
 
 const styles = StyleSheet.create({
     AppContainer: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: '#F5FCFF',
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#F5FCFF',
     },
     welcome: {
-      fontSize: 18,
-      textAlign: 'center',
-      margin: 10,
+        fontSize: 18,
+        textAlign: 'center',
+        margin: 10,
     },
     container: {
         backgroundColor: '#F5FCFF',
@@ -125,4 +125,4 @@ const styles = StyleSheet.create({
     }
 });
 
-module.exports = ContactDetails;
+export default ContactDetails;

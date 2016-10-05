@@ -1,6 +1,6 @@
-'use strict'
+'use strict';
 
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
     AppRegistry,
     StyleSheet,
@@ -17,7 +17,7 @@ import {
 } from 'react-native';
 
 class CollectionDetails extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
 
         this.state = {
@@ -25,76 +25,76 @@ class CollectionDetails extends Component {
         };
     }
 
-  render() {
-    var pic = <View />;
-    if (this.state.pushEvent.pic) {
-      pic = <Image
+    render() {
+        var pic = <View />;
+        if (this.state.pushEvent.pic) {
+            pic = <Image
                 source={{uri: this.state.pushEvent.pic}}
                 resizeMode='stretch'
                 style={styles.img}
             />
-    } else {
-      pic = <Image
+        } else {
+            pic = <Image
                 source={require('../../../no-img.png')}
                 resizeMode='stretch'
                 style={styles.img}
             />
+        }
+
+        return (
+            <ScrollView>
+                <View style={{
+                    flex: 1,
+                    paddingTop: 20,
+                    justifyContent: 'flex-start',
+                    alignItems: 'center'
+                }}>
+
+                    {pic}
+
+                    <Text style={styles.welcome}>
+                        {this.state.pushEvent.name}
+                    </Text>
+
+                    <Text style={styles.welcome}>
+                        {this.state.pushEvent.group}
+                    </Text>
+
+                    <Text style={styles.welcome}>
+                        {this.state.pushEvent.category}
+                    </Text>
+
+                    <Text style={styles.welcome}>
+                        ID: {this.state.pushEvent.id}
+                    </Text>
+
+                    <Text style={styles.welcome}>
+                        {this.state.pushEvent.description}
+                    </Text>
+
+                </View>
+            </ScrollView>
+        );
     }
-
-    return (
-      <ScrollView>
-        <View style={{
-            flex: 1,
-            paddingTop: 20,
-            justifyContent: 'flex-start',
-            alignItems: 'center'
-        }}>
-
-          {pic}
-
-          <Text style={styles.welcome}>
-            {this.state.pushEvent.name}
-          </Text>
-
-          <Text style={styles.welcome}>
-            {this.state.pushEvent.group}
-          </Text>
-
-          <Text style={styles.welcome}>
-            {this.state.pushEvent.category}
-          </Text>
-
-          <Text style={styles.welcome}>
-            ID: {this.state.pushEvent.id}
-          </Text>
-
-          <Text style={styles.welcome}>
-            {this.state.pushEvent.description}
-          </Text>
-
-        </View>
-      </ScrollView>
-    );
-  }
 }
 
 const styles = StyleSheet.create({
     img: {
-      height: 300,
-      width: 270,
-      borderRadius: 20,
-      margin: 0
+        height: 300,
+        width: 270,
+        borderRadius: 20,
+        margin: 0
     },
     AppContainer: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: '#F5FCFF',
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#F5FCFF',
     },
     welcome: {
-      fontSize: 18,
-      textAlign: 'center',
-      margin: 10,
+        fontSize: 18,
+        textAlign: 'center',
+        margin: 10,
     },
     container: {
         backgroundColor: '#F5FCFF',
@@ -145,4 +145,4 @@ const styles = StyleSheet.create({
     }
 });
 
-module.exports = CollectionDetails;
+export default CollectionDetails;

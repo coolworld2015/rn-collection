@@ -1,6 +1,6 @@
-'use strict'
+'use strict';
 
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
     AppRegistry,
     StyleSheet,
@@ -19,52 +19,52 @@ import {
 import ContactDetails from './contactDetails';
 
 class Contacts extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
 
         var ds = new ListView.DataSource({
             rowHasChanged: (r1, r2) => r1 != r2
         });
-console.log(props);
+        console.log(props);
         this.state = {
             dataSource: ds.cloneWithRows([]),
             //searchQuery: 'Sex',
             searchQuery: props.searchQuery,
             showProgress: true,
-						resultsCount: 0
+            resultsCount: 0
         };
 
-      	this.getContacts();
+        this.getContacts();
     }
 
-    getContacts(){
-       fetch('http://ui-collection.herokuapp.com/api/clients/get', {
+    getContacts() {
+        fetch('http://ui-collection.herokuapp.com/api/clients/get', {
             method: 'get',
             headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json'
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
             }
-          })
-          .then((response)=> response.json())
-          .then((responseData)=> {
+        })
+            .then((response)=> response.json())
+            .then((responseData)=> {
 
-             this.setState({
-               dataSource: this.state.dataSource.cloneWithRows(responseData.sort(this.sort)),
-               resultsCount: responseData.length,
-               responseData: responseData.sort(this.sort)
-             });
+                this.setState({
+                    dataSource: this.state.dataSource.cloneWithRows(responseData.sort(this.sort)),
+                    resultsCount: responseData.length,
+                    responseData: responseData.sort(this.sort)
+                });
 
-       })
-         .catch((error)=> {
-             this.setState({
-               serverError: true
-             });
-       })
-         .finally(()=> {
-           this.setState({
-             showProgress: false
-           });
- 				});
+            })
+            .catch((error)=> {
+                this.setState({
+                    serverError: true
+                });
+            })
+            .finally(()=> {
+                this.setState({
+                    showProgress: false
+                });
+            });
     }
 
     sort(a, b) {
@@ -78,7 +78,7 @@ console.log(props);
         return 0;
     }
 
-    pressRow(rowData){
+    pressRow(rowData) {
         this.props.navigator.push({
             title: rowData.name,
             component: ContactDetails,
@@ -88,146 +88,148 @@ console.log(props);
         });
     }
 
-    renderRow(rowData){
+    renderRow(rowData) {
         return (
-          	<TouchableHighlight
+            <TouchableHighlight
                 onPress={()=> this.pressRow(rowData)}
                 underlayColor='#ddd'
-          	>
-            <View style={styles.imgsList}>
-              <Image
-                  source={{uri: rowData.pic}}
-                  style={styles.img}
-                  resizeMode='stretch'
-              />
-                <View style={{
-                   flex: 1,
-                   flexDirection: 'column',
-                   justifyContent: 'space-between'
-                  }}>
+            >
+                <View style={styles.imgsList}>
+                    <Image
+                        source={{uri: rowData.pic}}
+                        style={styles.img}
+                        resizeMode='stretch'
+                    />
+                    <View style={{
+                        flex: 1,
+                        flexDirection: 'column',
+                        justifyContent: 'space-between'
+                    }}>
 
-                <Text>{rowData.name}</Text>
+                        <Text>{rowData.name}</Text>
 
+                    </View>
                 </View>
-            </View>
-          </TouchableHighlight>
+            </TouchableHighlight>
         );
     }
 
-    refreshData(event){
-      if (event.nativeEvent.contentOffset.y <= -100) {
+    refreshData(event) {
+        if (event.nativeEvent.contentOffset.y <= -100) {
 
-        this.setState({
-            showProgress: true,
-            resultsCount: event.nativeEvent.contentOffset.y
-        });
-        setTimeout(() => {this.getContacts()}, 300);
-      }
+            this.setState({
+                showProgress: true,
+                resultsCount: event.nativeEvent.contentOffset.y
+            });
+            setTimeout(() => {
+                this.getContacts()
+            }, 300);
+        }
     }
 
-    render(){
-      var errorCtrl = <View />;
+    render() {
+        var errorCtrl = <View />;
 
-        if(this.state.serverError){
+        if (this.state.serverError) {
             errorCtrl = <Text style={styles.error}>
                 Something went wrong.
             </Text>;
         }
 
-      if(this.state.showProgress){
+        if (this.state.showProgress) {
+            return (
+                <View style={{
+                    flex: 1,
+                    justifyContent: 'center'
+                }}>
+                    <ActivityIndicator
+                        size="large"
+                        animating={true}/>
+                </View>
+            );
+        }
         return (
-            <View style={{
-                flex: 1,
-                justifyContent: 'center'
-            }}>
-                <ActivityIndicator
-                    size="large"
-                    animating={true} />
+            <View style={{flex: 1, justifyContent: 'center'}}>
+                <View style={{marginTop: 60}}>
+                    <TextInput style={{
+                        height: 45,
+                        marginTop: 4,
+                        padding: 5,
+                        backgroundColor: 'white',
+                        borderWidth: 3,
+                        borderColor: 'lightgray',
+                        borderRadius: 0,
+                    }}
+                               onChangeText={(text)=> {
+                                   var arr = [].concat(this.state.responseData);
+                                   var items = arr.filter((el) => el.name.indexOf(text) >= 0);
+                                   this.setState({
+                                       dataSource: this.state.dataSource.cloneWithRows(items),
+                                       resultsCount: items.length,
+                                   })
+                               }}
+                               placeholder="Search">
+                    </TextInput>
+
+                    {errorCtrl}
+
+                </View>
+
+                <ScrollView
+                    onScroll={this.refreshData.bind(this)} scrollEventThrottle={16}
+                    style={{marginTop: 0, marginBottom: 0}}>
+                    <ListView
+                        dataSource={this.state.dataSource}
+                        renderRow={this.renderRow.bind(this)}
+                    />
+                </ScrollView>
+
+                <View style={{marginBottom: 49}}>
+                    <Text style={styles.countFooter}>
+                        {this.state.resultsCount} entries were found.
+                    </Text>
+                </View>
+
             </View>
-        );
-      }
-        return (
-          <View style={{flex: 1, justifyContent: 'center'}}>
-            <View style={{marginTop: 60}}>
-				 <TextInput style={{
-					  height: 45,
-					  marginTop: 4,
-					  padding: 5,
-					  backgroundColor: 'white',
-					  borderWidth: 3,
-					  borderColor: 'lightgray',
-					  borderRadius: 0,
-					}}
-					onChangeText={(text)=> {
-					  var arr = [].concat(this.state.responseData);
-					  var items = arr.filter((el) => el.name.indexOf(text) >= 0);
-					  this.setState({
-						 dataSource: this.state.dataSource.cloneWithRows(items),
-						 resultsCount: items.length,
-					  })
-					}}
-                placeholder="Search">
-              </TextInput>
-
-          	{errorCtrl}
-
-            </View>
-
-          <ScrollView
-              onScroll={this.refreshData.bind(this)} scrollEventThrottle={16}
-              style={{marginTop: 0, marginBottom: 0}}>
-            <ListView
-              dataSource={this.state.dataSource}
-              renderRow={this.renderRow.bind(this)}
-            />
-  				</ScrollView>
-
-          <View style={{marginBottom: 49}}>
-            <Text style={styles.countFooter}>
-              {this.state.resultsCount} entries were found.
-            </Text>
-          </View>
-
-        </View>
-      )
-	}
+        )
+    }
 }
 
 
 const styles = StyleSheet.create({
     imgsList: {
-      flex: 1,
-      flexDirection: 'row',
-      padding: 0,
-      alignItems: 'center',
-      borderColor: '#D7D7D7',
-      borderBottomWidth: 1,
-      backgroundColor: '#fff'
+        flex: 1,
+        flexDirection: 'row',
+        padding: 0,
+        alignItems: 'center',
+        borderColor: '#D7D7D7',
+        borderBottomWidth: 1,
+        backgroundColor: '#fff'
     },
     countHeader: {
-      fontSize: 16,
-      textAlign: 'center',
-      padding: 15,
-      backgroundColor: '#F5FCFF',
+        fontSize: 16,
+        textAlign: 'center',
+        padding: 15,
+        backgroundColor: '#F5FCFF',
     },
-  	countFooter: {
-      fontSize: 16,
-      textAlign: 'center',
-      padding: 10,
-      borderColor: '#D7D7D7',
-      backgroundColor: 'whitesmoke'
+    countFooter: {
+        fontSize: 16,
+        textAlign: 'center',
+        padding: 10,
+        borderColor: '#D7D7D7',
+        backgroundColor: 'whitesmoke'
     },
     img: {
-      height: 110,
-      width: 100,
-      borderRadius: 20,
-      margin: 15
+        height: 110,
+        width: 100,
+        borderRadius: 20,
+        margin: 15
     },
     error: {
-      color: 'red',
-      paddingTop: 10,
-      textAlign: 'center'
+        color: 'red',
+        paddingTop: 10,
+        textAlign: 'center'
     }
 });
 
-module.exports = Contacts;
+export default Contacts;

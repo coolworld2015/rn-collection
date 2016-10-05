@@ -1,6 +1,6 @@
-'use strict'
+'use strict';
 
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
     AppRegistry,
     StyleSheet,
@@ -19,7 +19,7 @@ import {
 import SearchResults from './searchResults';
 
 class Search extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
 
         this.state = {
@@ -27,74 +27,74 @@ class Search extends Component {
         }
     }
 
-    render(){
-      var errorCtrl = <View />;
+    render() {
+        var errorCtrl = <View />;
 
-      if(this.state.serverError){
-          errorCtrl = <Text style={styles.error}>
-              Something went wrong.
-          </Text>;
-      }
+        if (this.state.serverError) {
+            errorCtrl = <Text style={styles.error}>
+                Something went wrong.
+            </Text>;
+        }
 
-      var validCtrl = <View />;
+        var validCtrl = <View />;
 
-      if(this.state.invalidValue){
-          validCtrl = <Text style={styles.error}>
-              Value required - please provide.
-          </Text>;
-      }
+        if (this.state.invalidValue) {
+            validCtrl = <Text style={styles.error}>
+                Value required - please provide.
+            </Text>;
+        }
 
         return (
             <ScrollView>
-            <View style={styles.container}>
-          			<TouchableHighlight
-                    onPress={this.clearSearch.bind(this)}
-                    style={styles.button}>
-                    <Text style={styles.buttonText}>Search collection</Text>
-                </TouchableHighlight>
-          			<TextInput
-                    onChangeText={(text)=> this.setState({
-                      searchQuery: text,
-                      invalidValue: false
-                    })}
-                    value={this.state.searchQuery}
-                    style={styles.loginInput}
-                    placeholder="Search collection">
-                </TextInput>
+                <View style={styles.container}>
+                    <TouchableHighlight
+                        onPress={this.clearSearch.bind(this)}
+                        style={styles.button}>
+                        <Text style={styles.buttonText}>Search collection</Text>
+                    </TouchableHighlight>
+                    <TextInput
+                        onChangeText={(text)=> this.setState({
+                            searchQuery: text,
+                            invalidValue: false
+                        })}
+                        value={this.state.searchQuery}
+                        style={styles.loginInput}
+                        placeholder="Search collection">
+                    </TextInput>
 
-                {validCtrl}
+                    {validCtrl}
 
-                <TouchableHighlight
-                    onPress={this.onSearchPressed.bind(this)}
-                    style={styles.button}>
-                    <Text style={styles.buttonText}>Search</Text>
-                </TouchableHighlight>
+                    <TouchableHighlight
+                        onPress={this.onSearchPressed.bind(this)}
+                        style={styles.button}>
+                        <Text style={styles.buttonText}>Search</Text>
+                    </TouchableHighlight>
 
-                {errorCtrl}
+                    {errorCtrl}
 
-                <ActivityIndicator
-                    animating={this.state.showProgress}
-                    size="large"
-                    style={styles.loader}
-                 />
-            </View>
-             </ScrollView>
+                    <ActivityIndicator
+                        animating={this.state.showProgress}
+                        size="large"
+                        style={styles.loader}
+                    />
+                </View>
+            </ScrollView>
         )
     }
 
-    clearSearch(){
-      this.setState({
-        searchQuery: '',
-        invalidValue: false
-      })
+    clearSearch() {
+        this.setState({
+            searchQuery: '',
+            invalidValue: false
+        })
     }
 
-    onSearchPressed(){
+    onSearchPressed() {
         if (this.state.searchQuery == undefined) {
-          this.setState({
-              invalidValue: true
-          });
-        return;
+            this.setState({
+                invalidValue: true
+            });
+            return;
         }
 
         this.props.navigator.push({
@@ -159,4 +159,4 @@ const styles = StyleSheet.create({
     }
 });
 
-module.exports = Search;
+export default Search;
