@@ -36,7 +36,7 @@ class Collection extends Component {
     }
 
     getCollection() {
-        fetch('http://ui-collection.herokuapp.com/api/items/get', {
+        fetch('http://ui-collection.herokuapp.com/api/items/get', {  //TODO: getAll
             method: 'get',
             headers: {
                 'Accept': 'application/json',
@@ -75,16 +75,31 @@ class Collection extends Component {
     }
 
     renderRow(rowData) {
+        var pic;
+
+        if (rowData.pic) {
+            pic = <Image
+                source={{uri: rowData.pic}}
+                resizeMode='stretch'
+                style={styles.img}
+            />
+        } else {
+            pic = <Image
+                source={require('../../../no-img.png')}
+                resizeMode='stretch'
+                style={styles.img1}
+            />
+        }
+
         return (
             <TouchableHighlight
                 onPress={()=> this.pressRow(rowData)}
-                underlayColor='#ddd'
-            >
+                underlayColor='#ddd'>
+
                 <View style={styles.imgsList}>
-                    <Image
-                        source={{uri: rowData.pic}}
-                        style={styles.img}
-                    />
+
+                    {pic}
+
                     <View style={{
                         flex: 1,
                         flexDirection: 'column',

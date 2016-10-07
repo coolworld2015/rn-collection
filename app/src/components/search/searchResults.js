@@ -87,7 +87,8 @@ class SearchResults extends Component {
     }
 
     renderRow(rowData) {
-        var pic = <View />;
+        var pic;
+
         if (rowData.pic) {
             pic = <Image
                 source={{uri: rowData.pic}}
@@ -105,8 +106,8 @@ class SearchResults extends Component {
         return (
             <TouchableHighlight
                 onPress={()=> this.pressRow(rowData)}
-                underlayColor='#ddd'
-            >
+                underlayColor='#ddd'>
+
                 <View style={styles.imgsList}>
 
                     {pic}
