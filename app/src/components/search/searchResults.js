@@ -29,7 +29,9 @@ class SearchResults extends Component {
             dataSource: ds.cloneWithRows([]),
             searchQuery: props.searchQuery,
             showProgress: true,
-            resultsCount: 0
+            resultsCount: 0,
+            recordsCount: 5,
+            positionY: 0
         };
 
         this.getCollection();
@@ -46,7 +48,7 @@ class SearchResults extends Component {
                 console.log(responseData);
 
                 this.setState({
-                    dataSource: this.state.dataSource.cloneWithRows(responseData.sort(this.sort)),
+                    dataSource: this.state.dataSource.cloneWithRows(responseData.sort(this.sort).slice(0, 5)),
                     resultsCount: responseData.length,
                     responseData: responseData.sort(this.sort)
                 });
@@ -127,11 +129,31 @@ class SearchResults extends Component {
     }
 
     refreshData(event) {
+        var items, positionY, recordsCount;
+
+        recordsCount = this.state.recordsCount;
+        positionY = this.state.positionY;
+        items = this.state.responseData.slice(0, recordsCount);
+
+        console.log(positionY + ' - ' + recordsCount + ' - ' + items.length);
+
+        if (event.nativeEvent.contentOffset.y >= positionY - 110) {
+            console.log(items.length);
+            this.setState({
+                dataSource: this.state.dataSource.cloneWithRows(items),
+                recordsCount: recordsCount + 3,
+                positionY: positionY + 380
+            });
+
+        }
+
         if (event.nativeEvent.contentOffset.y <= -100) {
 
             this.setState({
                 showProgress: true,
-                resultsCount: event.nativeEvent.contentOffset.y
+                resultsCount: 0,
+                recordsCount: 5,
+                positionY: 0
             });
             setTimeout(() => {
                 this.getCollection()
@@ -178,6 +200,7 @@ class SearchResults extends Component {
                                    this.setState({
                                        dataSource: this.state.dataSource.cloneWithRows(items),
                                        resultsCount: items.length,
+                                       recordsCount: items.length
                                    })
                                }}
                                placeholder="Search">
