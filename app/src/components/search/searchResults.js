@@ -196,7 +196,7 @@ class SearchResults extends Component {
                     }}
                                onChangeText={(text)=> {
                                    var arr = [].concat(this.state.responseData);
-                                   var items = arr.filter((el) => el.name.indexOf(text) >= 0);
+                                   var items = arr.filter((el) => el.name.toLowerCase().indexOf(text.toLowerCase()) >= 0);
                                    this.setState({
                                        dataSource: this.state.dataSource.cloneWithRows(items),
                                        resultsCount: items.length,
