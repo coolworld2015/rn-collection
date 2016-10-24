@@ -25,6 +25,7 @@ class Collection extends Component {
         var ds = new ListView.DataSource({
             rowHasChanged: (r1, r2) => r1 != r2
         });
+
         this.state = {
             dataSource: ds.cloneWithRows([]),
             searchQuery: props.searchQuery,
@@ -184,7 +185,7 @@ class Collection extends Component {
                     }}
                                onChangeText={(text)=> {
                                    var arr = [].concat(this.state.responseData);
-                                   var items = arr.filter((el) => el.name.indexOf(text) >= 0);
+                                   var items = arr.filter((el) => el.name.toLowerCase().indexOf(text.toLowerCase()) >= 0);
                                    this.setState({
                                        dataSource: this.state.dataSource.cloneWithRows(items),
                                        resultsCount: items.length,
