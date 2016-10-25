@@ -120,8 +120,8 @@ class SearchResults extends Component {
                         flexDirection: 'column',
                         justifyContent: 'space-between'
                     }}>
-                        <Text>{rowData.name}</Text>
-                        <Text>{rowData.group}</Text>
+                        <Text style={styles.text}>{rowData.name}</Text>
+                        <Text style={styles.text1}>{rowData.group}</Text>
                         <Text>{rowData.category}</Text>
                     </View>
                 </View>
@@ -262,6 +262,14 @@ const styles = StyleSheet.create({
         padding: 10,
         borderColor: '#D7D7D7',
         backgroundColor: 'whitesmoke'
+    },
+    text: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        marginBottom: 5
+    },
+    text1: {
+        marginBottom: 5
     },
     img: {
         height: 100,
