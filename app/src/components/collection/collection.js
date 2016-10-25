@@ -51,7 +51,8 @@ class Collection extends Component {
                 this.setState({
                     dataSource: this.state.dataSource.cloneWithRows(responseData.slice(0, 5)),
                     resultsCount: responseData.length,
-                    responseData: responseData
+                    responseData: responseData,
+                    filteredItems: responseData
                 });
 
             })
@@ -118,24 +119,6 @@ class Collection extends Component {
     }
 
     refreshData(event) {
-        var items, positionY, recordsCount;
-
-        recordsCount = this.state.recordsCount;
-        positionY = this.state.positionY;
-        items = this.state.responseData.slice(0, recordsCount);
-
-        console.log(positionY + ' - ' + recordsCount + ' - ' + items.length);
-
-        if (event.nativeEvent.contentOffset.y >= positionY - 110) {
-            console.log(items.length);
-            this.setState({
-                dataSource: this.state.dataSource.cloneWithRows(items),
-                recordsCount: recordsCount + 3,
-                positionY: positionY + 380
-            });
-
-        }
-
         if (event.nativeEvent.contentOffset.y <= -100) {
 
             this.setState({
@@ -148,6 +131,41 @@ class Collection extends Component {
                 this.getCollection()
             }, 300);
         }
+
+        if (this.state.filteredItems == undefined) {
+            return;
+        }
+
+        var items, positionY, recordsCount;
+        recordsCount = this.state.recordsCount;
+        positionY = this.state.positionY;
+        items = this.state.filteredItems.slice(0, recordsCount);
+
+        console.log(positionY + ' - ' + recordsCount + ' - ' + items.length);
+
+        if (event.nativeEvent.contentOffset.y >= positionY - 110) {
+            console.log(items.length);
+            this.setState({
+                dataSource: this.state.dataSource.cloneWithRows(items),
+                recordsCount: recordsCount + 3,
+                positionY: positionY + 380
+            });
+
+        }
+    }
+
+    onChangeText(text) {
+        if (this.state.dataSource == undefined) {
+            return;
+        }
+
+        var arr = [].concat(this.state.responseData);
+        var items = arr.filter((el) => el.name.toLowerCase().indexOf(text.toLowerCase()) != -1);
+        this.setState({
+            dataSource: this.state.dataSource.cloneWithRows(items),
+            resultsCount: items.length,
+            filteredItems: items
+        })
     }
 
     render() {
@@ -183,15 +201,7 @@ class Collection extends Component {
                         borderColor: 'lightgray',
                         borderRadius: 0,
                     }}
-                               onChangeText={(text)=> {
-                                   var arr = [].concat(this.state.responseData);
-                                   var items = arr.filter((el) => el.name.toLowerCase().indexOf(text.toLowerCase()) >= 0);
-                                   this.setState({
-                                       dataSource: this.state.dataSource.cloneWithRows(items),
-                                       resultsCount: items.length,
-                                       recordsCount: items.length
-                                   })
-                               }}
+                               onChangeText={this.onChangeText.bind(this)}
                                placeholder="Search">
                     </TextInput>
 
