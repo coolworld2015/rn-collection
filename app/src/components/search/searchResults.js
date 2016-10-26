@@ -27,7 +27,7 @@ class SearchResults extends Component {
         });
         this.state = {
             dataSource: ds.cloneWithRows([]),
-            searchQuery: props.searchQuery,
+            searchQueryHttp: props.searchQuery,
             showProgress: true,
             resultsCount: 0,
             recordsCount: 5,
@@ -40,7 +40,7 @@ class SearchResults extends Component {
     getCollection() {
         console.log('getCollection');
         fetch('http://ui-collection.herokuapp.com/api/items/findByName/'
-            + this.state.searchQuery, {
+            + this.state.searchQueryHttp, {
             method: 'get'
         })
             .then((response)=> response.json())
@@ -134,14 +134,16 @@ class SearchResults extends Component {
             return;
         }
 
-        if (event.nativeEvent.contentOffset.y <= -100) {
+        if (event.nativeEvent.contentOffset.y <= -150) {
 
             this.setState({
                 showProgress: true,
                 resultsCount: 0,
                 recordsCount: 5,
-                positionY: 0
+                positionY: 0,
+                searchQuery: ''
             });
+
             setTimeout(() => {
                 this.getCollection()
             }, 300);
@@ -179,7 +181,8 @@ class SearchResults extends Component {
         this.setState({
             dataSource: this.state.dataSource.cloneWithRows(items),
             resultsCount: items.length,
-            filteredItems: items
+            filteredItems: items,
+            searchQuery: text
         })
     }
 
@@ -216,6 +219,7 @@ class SearchResults extends Component {
                         borderRadius: 0,
                     }}
                                onChangeText={this.onChangeText.bind(this)}
+                               value={this.state.searchQuery}
                                placeholder="Search">
                     </TextInput>
 
@@ -226,9 +230,9 @@ class SearchResults extends Component {
                 {loader}
 
                 <ScrollView
-                    onScroll={this.refreshData.bind(this)} scrollEventThrottle={16}
-                    style={{marginTop: -65, marginBottom: -45}}>
+                    onScroll={this.refreshData.bind(this)} scrollEventThrottle={16}>
                     <ListView
+                        style={{marginTop: -65, marginBottom: -45}}
                         dataSource={this.state.dataSource}
                         renderRow={this.renderRow.bind(this)}
                     />

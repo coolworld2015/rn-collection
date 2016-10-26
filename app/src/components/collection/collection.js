@@ -124,14 +124,16 @@ class Collection extends Component {
             return;
         }
 
-        if (event.nativeEvent.contentOffset.y <= -100) {
+        if (event.nativeEvent.contentOffset.y <= -150) {
 
             this.setState({
                 showProgress: true,
                 resultsCount: 0,
                 recordsCount: 5,
-                positionY: 0
+                positionY: 0,
+                searchQuery: ''
             });
+
             setTimeout(() => {
                 this.getCollection()
             }, 100);
@@ -169,7 +171,8 @@ class Collection extends Component {
         this.setState({
             dataSource: this.state.dataSource.cloneWithRows(items),
             resultsCount: items.length,
-            filteredItems: items
+            filteredItems: items,
+            searchQuery: text
         })
     }
 
@@ -206,6 +209,7 @@ class Collection extends Component {
                         borderRadius: 0,
                     }}
                                onChangeText={this.onChangeText.bind(this)}
+                               value={this.state.searchQuery}
                                placeholder="Search">
                     </TextInput>
 
@@ -216,9 +220,9 @@ class Collection extends Component {
                 {loader}
 
                 <ScrollView
-                    onScroll={this.refreshData.bind(this)} scrollEventThrottle={16}
-                    style={{marginTop: -65, marginBottom: -45}}>
+                    onScroll={this.refreshData.bind(this)} scrollEventThrottle={16}>
                     <ListView
+                        style={{marginTop: -65, marginBottom: -45}}
                         dataSource={this.state.dataSource}
                         renderRow={this.renderRow.bind(this)}
                     />

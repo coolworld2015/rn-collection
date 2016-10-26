@@ -116,10 +116,11 @@ class Contacts extends Component {
             return;
         }
 
-        if (event.nativeEvent.contentOffset.y <= -100) {
+        if (event.nativeEvent.contentOffset.y <= -150) {
             this.setState({
                 showProgress: true,
-                resultsCount: 0
+                resultsCount: 0,
+                searchQuery: ''
             });
 
             setTimeout(() => {
@@ -138,7 +139,8 @@ class Contacts extends Component {
         this.setState({
             dataSource: this.state.dataSource.cloneWithRows(items),
             resultsCount: items.length,
-            filteredItems: items
+            filteredItems: items,
+            searchQuery: text
         })
     }
 
@@ -175,6 +177,7 @@ class Contacts extends Component {
                         borderRadius: 0,
                     }}
                                onChangeText={this.onChangeText.bind(this)}
+                               value={this.state.searchQuery}
                                placeholder="Search">
                     </TextInput>
 
@@ -185,9 +188,9 @@ class Contacts extends Component {
                 {loader}
 
                 <ScrollView
-                    onScroll={this.refreshData.bind(this)} scrollEventThrottle={16}
-                    style={{marginTop: -65, marginBottom: -45}}>
+                    onScroll={this.refreshData.bind(this)} scrollEventThrottle={16}>
                     <ListView
+                        style={{marginTop: -65, marginBottom: -45}}
                         dataSource={this.state.dataSource}
                         renderRow={this.renderRow.bind(this)}
                     />
