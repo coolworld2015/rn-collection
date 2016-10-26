@@ -39,6 +39,7 @@ class Collection extends Component {
     }
 
     getCollection() {
+        console.log('getCollection');
         fetch('http://ui-collection.herokuapp.com/api/items/get', {  //TODO: getAll
             method: 'get',
             headers: {
@@ -119,6 +120,10 @@ class Collection extends Component {
     }
 
     refreshData(event) {
+        if (this.state.showProgress == true) {
+            return;
+        }
+
         if (event.nativeEvent.contentOffset.y <= -100) {
 
             this.setState({
@@ -129,7 +134,7 @@ class Collection extends Component {
             });
             setTimeout(() => {
                 this.getCollection()
-            }, 300);
+            }, 100);
         }
 
         if (this.state.filteredItems == undefined) {
@@ -169,7 +174,7 @@ class Collection extends Component {
     }
 
     render() {
-        var errorCtrl = <View />;
+        var errorCtrl, loader;
 
         if (this.state.serverError) {
             errorCtrl = <Text style={styles.error}>
@@ -178,17 +183,16 @@ class Collection extends Component {
         }
 
         if (this.state.showProgress) {
-            return (
-                <View style={{
-                    flex: 1,
-                    justifyContent: 'center'
-                }}>
-                    <ActivityIndicator
-                        size="large"
-                        animating={true}/>
-                </View>
-            );
+            loader = <View style={{
+                justifyContent: 'center',
+                height: 100
+            }}>
+                <ActivityIndicator
+                    size="large"
+                    animating={true}/>
+            </View>;
         }
+
         return (
             <View style={{flex: 1, justifyContent: 'center'}}>
                 <View style={{marginTop: 60}}>
@@ -209,9 +213,11 @@ class Collection extends Component {
 
                 </View>
 
+                {loader}
+
                 <ScrollView
                     onScroll={this.refreshData.bind(this)} scrollEventThrottle={16}
-                    style={{marginTop: 0, marginBottom: 0}}>
+                    style={{marginTop: -65, marginBottom: -45}}>
                     <ListView
                         dataSource={this.state.dataSource}
                         renderRow={this.renderRow.bind(this)}

@@ -28,7 +28,6 @@ class Contacts extends Component {
         console.log(props);
         this.state = {
             dataSource: ds.cloneWithRows([]),
-            //searchQuery: 'Sex',
             searchQuery: props.searchQuery,
             showProgress: true,
             resultsCount: 0
@@ -119,7 +118,8 @@ class Contacts extends Component {
 
         if (event.nativeEvent.contentOffset.y <= -100) {
             this.setState({
-                showProgress: true
+                showProgress: true,
+                resultsCount: 0
             });
 
             setTimeout(() => {
