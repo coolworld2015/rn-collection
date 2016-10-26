@@ -38,6 +38,7 @@ class Contacts extends Component {
     }
 
     getContacts() {
+        console.log('getContacts');
         fetch('http://ui-collection.herokuapp.com/api/clients/get', {
             method: 'get',
             headers: {
@@ -47,7 +48,6 @@ class Contacts extends Component {
         })
             .then((response)=> response.json())
             .then((responseData)=> {
-
                 this.setState({
                     dataSource: this.state.dataSource.cloneWithRows(responseData.sort(this.sort)),
                     resultsCount: responseData.length,
@@ -92,14 +92,12 @@ class Contacts extends Component {
         return (
             <TouchableHighlight
                 onPress={()=> this.pressRow(rowData)}
-                underlayColor='#ddd'
-            >
+                underlayColor='#ddd'>
                 <View style={styles.imgsList}>
                     <Image
                         source={{uri: rowData.pic}}
                         style={styles.img}
-                        resizeMode='stretch'
-                    />
+                        resizeMode='stretch'/>
                     <View style={{
                         flex: 1,
                         flexDirection: 'column',
@@ -115,15 +113,18 @@ class Contacts extends Component {
     }
 
     refreshData(event) {
-        if (event.nativeEvent.contentOffset.y <= -100) {
+        if (this.state.showProgress == true) {
+            return;
+        }
 
+        if (event.nativeEvent.contentOffset.y <= -100) {
             this.setState({
-                showProgress: true,
-                resultsCount: event.nativeEvent.contentOffset.y
+                showProgress: true
             });
+
             setTimeout(() => {
                 this.getContacts()
-            }, 300);
+            }, 100);
         }
     }
 
@@ -142,7 +143,7 @@ class Contacts extends Component {
     }
 
     render() {
-        var errorCtrl = <View />;
+        var errorCtrl, loader;
 
         if (this.state.serverError) {
             errorCtrl = <Text style={styles.error}>
@@ -151,17 +152,16 @@ class Contacts extends Component {
         }
 
         if (this.state.showProgress) {
-            return (
-                <View style={{
-                    flex: 1,
-                    justifyContent: 'center'
-                }}>
-                    <ActivityIndicator
-                        size="large"
-                        animating={true}/>
-                </View>
-            );
+            loader = <View style={{
+                justifyContent: 'center',
+                height: 100
+            }}>
+                <ActivityIndicator
+                    size="large"
+                    animating={true}/>
+            </View>;
         }
+
         return (
             <View style={{flex: 1, justifyContent: 'center'}}>
                 <View style={{marginTop: 60}}>
@@ -182,9 +182,11 @@ class Contacts extends Component {
 
                 </View>
 
+                {loader}
+
                 <ScrollView
                     onScroll={this.refreshData.bind(this)} scrollEventThrottle={16}
-                    style={{marginTop: 0, marginBottom: 0}}>
+                    style={{marginTop: -65, marginBottom: -45}}>
                     <ListView
                         dataSource={this.state.dataSource}
                         renderRow={this.renderRow.bind(this)}
