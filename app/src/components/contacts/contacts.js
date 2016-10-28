@@ -28,9 +28,10 @@ class Contacts extends Component {
         console.log(props);
         this.state = {
             dataSource: ds.cloneWithRows([]),
-            searchQuery: props.searchQuery,
             showProgress: true,
-            resultsCount: 0
+            resultsCount: 0,
+            recordsCount: 5,
+            positionY: 0
         };
 
         this.getContacts();
@@ -50,7 +51,8 @@ class Contacts extends Component {
                 this.setState({
                     dataSource: this.state.dataSource.cloneWithRows(responseData.sort(this.sort)),
                     resultsCount: responseData.length,
-                    responseData: responseData.sort(this.sort)
+                    responseData: responseData.sort(this.sort),
+                    filteredItems: responseData.sort(this.sort)
                 });
 
             })
@@ -88,15 +90,30 @@ class Contacts extends Component {
     }
 
     renderRow(rowData) {
+        var pic;
+
+        if (rowData.pic) {
+            pic = <Image
+                source={{uri: rowData.pic}}
+                resizeMode='stretch'
+                style={styles.img}
+            />
+        } else {
+            pic = <Image
+                source={require('../../../no-img.png')}
+                resizeMode='stretch'
+                style={styles.img1}
+            />
+        }
+
         return (
             <TouchableHighlight
                 onPress={()=> this.pressRow(rowData)}
                 underlayColor='#ddd'>
                 <View style={styles.imgsList}>
-                    <Image
-                        source={{uri: rowData.pic}}
-                        style={styles.img}
-                        resizeMode='stretch'/>
+
+                    {pic}
+
                     <View style={{
                         flex: 1,
                         flexDirection: 'column',
@@ -120,12 +137,35 @@ class Contacts extends Component {
             this.setState({
                 showProgress: true,
                 resultsCount: 0,
+                recordsCount: 5,
+                positionY: 0,
                 searchQuery: ''
             });
 
             setTimeout(() => {
                 this.getContacts()
             }, 100);
+        }
+
+        if (this.state.filteredItems == undefined) {
+            return;
+        }
+
+        var items, positionY, recordsCount;
+        recordsCount = this.state.recordsCount;
+        positionY = this.state.positionY;
+        items = this.state.filteredItems.slice(0, recordsCount);
+
+        console.log(positionY + ' - ' + recordsCount + ' - ' + items.length);
+
+        if (event.nativeEvent.contentOffset.y >= positionY - 550) {
+            console.log(items.length);
+            this.setState({
+                dataSource: this.state.dataSource.cloneWithRows(items),
+                recordsCount: recordsCount + 5,
+                positionY: positionY + 600
+            });
+
         }
     }
 

@@ -28,7 +28,6 @@ class Collection extends Component {
 
         this.state = {
             dataSource: ds.cloneWithRows([]),
-            searchQuery: props.searchQuery,
             showProgress: true,
             resultsCount: 0,
             recordsCount: 5,
@@ -150,12 +149,12 @@ class Collection extends Component {
 
         console.log(positionY + ' - ' + recordsCount + ' - ' + items.length);
 
-        if (event.nativeEvent.contentOffset.y >= positionY - 110) {
+        if (event.nativeEvent.contentOffset.y >= positionY - 550) {
             console.log(items.length);
             this.setState({
                 dataSource: this.state.dataSource.cloneWithRows(items),
-                recordsCount: recordsCount + 3,
-                positionY: positionY + 380
+                recordsCount: recordsCount + 5,
+                positionY: positionY + 600
             });
 
         }
