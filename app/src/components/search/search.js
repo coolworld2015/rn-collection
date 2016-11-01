@@ -13,7 +13,8 @@ import {
     ActivityIndicator,
     TabBarIOS,
     NavigatorIOS,
-    TextInput
+    TextInput,
+    Switch
 } from 'react-native';
 
 import SearchResults from './searchResults';
@@ -23,7 +24,8 @@ class Search extends Component {
         super(props);
 
         this.state = {
-            showProgress: false
+            showProgress: false,
+            eventSwitchTitle: true
         }
     }
 
@@ -52,6 +54,43 @@ class Search extends Component {
                         style={styles.button}>
                         <Text style={styles.buttonText}>Search collection</Text>
                     </TouchableHighlight>
+
+
+                    <View style={{
+                        height: 50,
+                        marginTop: 10,
+                        padding: 10,
+                        borderWidth: 1,
+                        borderColor: '#48BBEC',
+                        alignSelf: 'stretch',
+                        flex: 1,
+                        flexDirection: 'row'
+                    }}>
+                        <View
+                            style={{
+                                marginTop: 3,
+                                flex: 1
+                            }}>
+                            <Text style={{
+                                fontSize: 18,
+                            }}>
+                                Search by title
+                            </Text>
+                        </View>
+
+                        <View
+                            style={{
+                                marginTop: -1
+                            }}>
+                            <Switch
+                                onValueChange={(value) => this.setState({
+                                    eventSwitchTitle: value
+                                })}
+                                value={this.state.eventSwitchTitle}
+                            />
+                        </View>
+                    </View>
+
                     <TextInput
                         onChangeText={(text)=> this.setState({
                             searchQuery: text,
@@ -59,7 +98,7 @@ class Search extends Component {
                         })}
                         value={this.state.searchQuery}
                         style={styles.loginInput}
-                        placeholder="Search collection">
+                        placeholder="Search by title">
                     </TextInput>
 
                     {validCtrl}
