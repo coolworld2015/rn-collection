@@ -50,3 +50,9 @@ react-native link - for Linking
 -----------------------------------------------------------------------------------------------------
 Info.plist ->  add <key>NSPhotoLibraryUsageDescription</key><string>$(PRODUCT_NAME) photo use</string>
 -----------------------------------------------------------------------------------------------------
+NativeModules add
+-----------------------------------------------------------------------------------------------------
+Project -> Libraries -> React.xcodeproj -> React -> Base - New file (Objective-C File)
+-----------------------------------------------------------------------------------------------------
+RCTCustom.m - import NativeModules from 'react-native' - use NativeModules.ReadImageData.readImage
+-----------------------------------------------------------------------------------------------------
