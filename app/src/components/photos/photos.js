@@ -31,7 +31,7 @@ class Photos extends Component {
             dataSource: ds.cloneWithRows([]),
             showProgress: true,
             resultsCount: 0,
-            recordsCount: 5,
+            recordsCount: 3,
             positionY: 0
         };
 
@@ -49,12 +49,14 @@ class Photos extends Component {
                 });
 
                 console.log(images);
-                var images1 = images.concat(images).concat(images).concat(images).concat(images).concat(images);
+
+                //var images1 = images.concat(images).concat(images).concat(images).concat(images).concat(images);
+
                 this.setState({
-                    dataSource: this.state.dataSource.cloneWithRows(images1),
-                    resultsCount: images1.length,
-                    responseData: images1,
-                    filteredItems: images1
+                    dataSource: this.state.dataSource.cloneWithRows(images),
+                    resultsCount: images.length,
+                    responseData: images,
+                    filteredItems: images
                 });
             })
             .catch((error)=> {
@@ -72,7 +74,7 @@ class Photos extends Component {
     pressRow(rowData) {
         this.props.navigator.push({
             title: rowData.name,
-            component: CollectionDetails,
+            component: PhotosDetails,
             passProps: {
                 pushEvent: rowData
             }
@@ -109,7 +111,7 @@ class Photos extends Component {
             this.setState({
                 showProgress: true,
                 resultsCount: 0,
-                recordsCount: 5,
+                recordsCount: 3,
                 positionY: 0,
                 searchQuery: ''
             });
@@ -134,7 +136,7 @@ class Photos extends Component {
             console.log(items.length);
             this.setState({
                 dataSource: this.state.dataSource.cloneWithRows(items),
-                recordsCount: recordsCount + 5,
+                recordsCount: recordsCount + 3,
                 positionY: positionY + 600
             });
 
@@ -224,7 +226,7 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         padding: 0,
-        alignItems: 'center',
+        justifyContent: 'center',
         borderColor: '#D7D7D7',
         borderBottomWidth: 1,
         backgroundColor: '#fff'
@@ -251,8 +253,8 @@ const styles = StyleSheet.create({
         marginBottom: 5
     },
     img: {
-        height: 100,
-        width: 100,
+        height: 300,
+        width: 300,
         borderRadius: 20,
         margin: 15,
         alignItems: 'center'

@@ -27,9 +27,9 @@ class PhotosDetails extends Component {
 
     render() {
         var pic = <View />;
-        if (this.state.pushEvent.pic) {
+        if (this.state.pushEvent.uri) {
             pic = <Image
-                source={{uri: this.state.pushEvent.pic}}
+                source={{uri: this.state.pushEvent.uri}}
                 resizeMode='stretch'
                 style={styles.img}
             />
@@ -53,23 +53,7 @@ class PhotosDetails extends Component {
                     {pic}
 
                     <Text style={styles.welcome1}>
-                        {this.state.pushEvent.name}
-                    </Text>
-
-                    <Text style={styles.welcome}>
-                        {this.state.pushEvent.group}
-                    </Text>
-
-                    <Text style={styles.welcome}>
-                        {this.state.pushEvent.category}
-                    </Text>
-
-                    <Text style={styles.welcome}>
-                        ID: {this.state.pushEvent.id}
-                    </Text>
-
-                    <Text style={styles.welcome}>
-                        {this.state.pushEvent.description}
+                        {this.state.pushEvent.uri}
                     </Text>
 
                 </View>
@@ -81,7 +65,7 @@ class PhotosDetails extends Component {
 const styles = StyleSheet.create({
     img: {
         height: 300,
-        width: 270,
+        width: 300,
         borderRadius: 20,
         margin: 0
     },
