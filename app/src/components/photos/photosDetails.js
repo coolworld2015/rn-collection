@@ -26,7 +26,7 @@ class PhotosDetails extends Component {
         };
 
         NativeModules.ReadImageData.readImage(this.state.pushEvent.uri, (base64Image) => {
-            console.log(base64Image);
+            //console.log(base64Image);
 
             this.setState({
                 base64Image: 'data:image/jpg;base64,' + base64Image
@@ -35,20 +35,62 @@ class PhotosDetails extends Component {
         });
     }
 
+    addClient() {
+        // if (this.state.name == undefined ||
+        //     this.state.pass == undefined ||
+        //     this.state.description == undefined) {
+        //     this.setState({
+        //         invalidValue: true
+        //     });
+        //     return;
+        // }
+
+        this.setState({
+            showProgress: true
+        });
+
+        var id = (Math.random() * 1000000).toFixed();
+
+        fetch('http://ui-collection.herokuapp.com/api/clients/add/', {
+            method: 'POST',
+            body: JSON.stringify({
+                id: id,
+                name: id,
+                pic: this.state.base64Image,
+                pics: [this.state.base64Image],
+                description: id
+            }),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+            .then((response)=> response.json())
+            .then((responseData)=> {
+                console.log(responseData)
+                App.clients.refresh = true;
+                this.props.navigator.pop();
+            })
+            .catch((error)=> {
+                console.log(error);
+                this.setState({
+                    serverError: true
+                });
+            })
+            .finally(()=> {
+                this.setState({
+                    showProgress: false
+                });
+            });
+    }
+
     render() {
-        var pic = <View />;
-        if (this.state.pushEvent.uri) {
-            pic = <Image
-                source={{uri: this.state.pushEvent.uri}}
-                resizeMode='stretch'
-                style={styles.img}
-            />
-        } else {
-            pic = <Image
-                source={require('../../../no-img.png')}
-                resizeMode='stretch'
-                style={styles.img}
-            />
+        var errorCtrl;
+
+        if (this.state.serverError) {
+            errorCtrl = <Text style={styles.error}>
+                Something went wrong.
+            </Text>;
         }
 
         return (
@@ -60,11 +102,9 @@ class PhotosDetails extends Component {
                     alignItems: 'center'
                 }}>
 
-                    {/*{pic}*/}
-
-                    <Text style={styles.welcome1}>
-                        {this.state.pushEvent.uri}
-                    </Text>
+                    {/*<Text style={styles.welcome1}>*/}
+                        {/*{this.state.pushEvent.uri}*/}
+                    {/*</Text>*/}
 
                     <Image
                         source={{uri: this.state.base64Image}}
@@ -72,9 +112,13 @@ class PhotosDetails extends Component {
                         style={styles.img}
                     />
 
-                    {/*<Text style={styles.welcome1}>*/}
-                        {/*{this.state.base64Image}*/}
-                    {/*</Text>*/}
+                    {errorCtrl}
+
+                    <TouchableHighlight
+                        onPress={()=> this.addClient()}
+                        style={styles.button}>
+                        <Text style={styles.buttonText}>Add</Text>
+                    </TouchableHighlight>
 
                 </View>
             </ScrollView>
@@ -137,7 +181,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#48BBEC',
         borderColor: '#48BBEC',
         alignSelf: 'stretch',
-        marginTop: 10,
+        margin: 10,
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 5

@@ -1,4 +1,4 @@
-'use strict';
+//'use strict';
 
 import React, {Component} from 'react';
 import {
@@ -27,7 +27,13 @@ class AppContainer extends Component {
 
         this.state = {
             selectedTab: 'Photos'
-        }
+        };
+
+        App = {
+            clients: {
+                refresh: false
+            }
+        };
     }
 
     render() {
