@@ -29,7 +29,7 @@ class PhotosDetails extends Component {
             console.log(base64Image);
 
             this.setState({
-                base64Image: base64Image
+                base64Image: 'data:image/jpg;base64,' + base64Image
             });
 
         });
@@ -60,15 +60,21 @@ class PhotosDetails extends Component {
                     alignItems: 'center'
                 }}>
 
-                    {pic}
+                    {/*{pic}*/}
 
                     <Text style={styles.welcome1}>
                         {this.state.pushEvent.uri}
                     </Text>
 
-                    <Text style={styles.welcome1}>
-                        {this.state.base64Image}
-                    </Text>
+                    <Image
+                        source={{uri: this.state.base64Image}}
+                        resizeMode='stretch'
+                        style={styles.img}
+                    />
+
+                    {/*<Text style={styles.welcome1}>*/}
+                        {/*{this.state.base64Image}*/}
+                    {/*</Text>*/}
 
                 </View>
             </ScrollView>
