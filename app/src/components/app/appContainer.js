@@ -19,6 +19,7 @@ import {
 import Collection from '../collection/collection';
 import Search from '../search/search';
 import Contacts from '../contacts/contacts';
+import Photos from '../photos/photos';
 
 class AppContainer extends Component {
     constructor(props) {
@@ -64,6 +65,23 @@ class AppContainer extends Component {
                         initialRoute={{
                             component: Search,
                             title: 'Search'
+                        }}
+                    />
+                </TabBarIOS.Item>
+
+                <TabBarIOS.Item
+                    title="Photos"
+                    systemIcon="downloads"
+                    selected={this.state.selectedTab == 'Photos'}
+                    onPress={()=> this.setState({selectedTab: 'Photos'})}>
+
+                    <NavigatorIOS
+                        style={{
+                            flex: 1
+                        }}
+                        initialRoute={{
+                            component: Photos,
+                            title: 'Photos'
                         }}
                     />
                 </TabBarIOS.Item>
