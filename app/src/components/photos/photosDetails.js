@@ -13,7 +13,8 @@ import {
     ActivityIndicator,
     TabBarIOS,
     NavigatorIOS,
-    TextInput
+    TextInput,
+    NativeModules
 } from 'react-native';
 
 class PhotosDetails extends Component {
@@ -23,6 +24,15 @@ class PhotosDetails extends Component {
         this.state = {
             pushEvent: props.pushEvent
         };
+
+        NativeModules.ReadImageData.readImage(this.state.pushEvent.uri, (base64Image) => {
+            console.log(base64Image);
+
+            this.setState({
+                base64Image: base64Image
+            });
+
+        });
     }
 
     render() {
@@ -54,6 +64,10 @@ class PhotosDetails extends Component {
 
                     <Text style={styles.welcome1}>
                         {this.state.pushEvent.uri}
+                    </Text>
+
+                    <Text style={styles.welcome1}>
+                        {this.state.base64Image}
                     </Text>
 
                 </View>
