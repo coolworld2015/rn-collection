@@ -149,7 +149,7 @@ class Photos extends Component {
         }
 
         var arr = [].concat(this.state.responseData);
-        var items = arr.filter((el) => el.name.toLowerCase().indexOf(text.toLowerCase()) != -1);
+        var items = arr.filter((el) => el.uri.toLowerCase().indexOf(text.toLowerCase()) != -1);
         this.setState({
             dataSource: this.state.dataSource.cloneWithRows(items),
             resultsCount: items.length,
@@ -253,8 +253,8 @@ const styles = StyleSheet.create({
         marginBottom: 5
     },
     img: {
-        height: 300,
-        width: 300,
+        height: 200,
+        width: 200,
         borderRadius: 20,
         margin: 15,
         alignItems: 'center'
