@@ -49,13 +49,22 @@ class Photos extends Component {
                 });
 
                 console.log(images);
-
+                var images1 = images.concat(images).concat(images).concat(images).concat(images).concat(images);
                 this.setState({
-                    dataSource: this.state.dataSource.cloneWithRows(images)
+                    dataSource: this.state.dataSource.cloneWithRows(images1),
+                    resultsCount: images1.length,
+                    responseData: images1,
+                    filteredItems: images1
                 });
-            }, () => {
+            })
+            .catch((error)=> {
                 this.setState({
-                    retrievePhotoError: messages.errors.retrievePhotos
+                    serverError: true
+                });
+            })
+            .finally(()=> {
+                this.setState({
+                    showProgress: false
                 });
             });
     }
@@ -71,22 +80,6 @@ class Photos extends Component {
     }
 
     renderRow(rowData) {
-        var pic;
-
-        if (rowData.pic) {
-            pic = <Image
-                source={{uri: rowData.pic}}
-                resizeMode='stretch'
-                style={styles.img}
-            />
-        } else {
-            pic = <Image
-                source={require('../../../no-img.png')}
-                resizeMode='stretch'
-                style={styles.img1}
-            />
-        }
-
         return (
             <TouchableHighlight
                 onPress={()=> this.pressRow(rowData)}
@@ -94,17 +87,13 @@ class Photos extends Component {
 
                 <View style={styles.imgsList}>
 
-                    {pic}
+                    <Image
+                        source={{uri: rowData.uri}}
+                        resizeMode='stretch'
+                        style={styles.img}
+                    />
 
-                    <View style={{
-                        flex: 1,
-                        flexDirection: 'column',
-                        justifyContent: 'space-between'
-                    }}>
-                        <Text style={styles.text}>{rowData.name}</Text>
-                        <Text style={styles.text1}>{rowData.group}</Text>
-                        <Text>{rowData.category}</Text>
-                    </View>
+
                 </View>
             </TouchableHighlight>
         );
@@ -126,8 +115,8 @@ class Photos extends Component {
             });
 
             setTimeout(() => {
-                this.getCollection()
-            }, 100);
+                this.getPhotos()
+            }, 1000);
         }
 
         if (this.state.filteredItems == undefined) {
@@ -265,7 +254,8 @@ const styles = StyleSheet.create({
         height: 100,
         width: 100,
         borderRadius: 20,
-        margin: 15
+        margin: 15,
+        alignItems: 'center'
     },
     error: {
         color: 'red',

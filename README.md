@@ -48,5 +48,5 @@ xCode -> Libraries -> PROJECT/TARGET -> Build Phases -> Link Binary With Librari
 -----------------------------------------------------------------------------------------------------
 react-native link - for Linking
 -----------------------------------------------------------------------------------------------------
-Info.plist -> 	<key>NSPhotoLibraryUsageDescription</key><string>$(PRODUCT_NAME) photo use</string>
+Info.plist ->  add <key>NSPhotoLibraryUsageDescription</key><string>$(PRODUCT_NAME) photo use</string>
 -----------------------------------------------------------------------------------------------------
