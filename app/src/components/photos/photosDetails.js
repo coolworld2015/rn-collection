@@ -26,8 +26,6 @@ class PhotosDetails extends Component {
         };
 
         NativeModules.ReadImageData.readImage(this.state.pushEvent.uri, (base64Image) => {
-            //console.log(base64Image);
-
             this.setState({
                 base64Image: 'data:image/jpg;base64,' + base64Image
             });
@@ -67,21 +65,16 @@ class PhotosDetails extends Component {
         })
             .then((response)=> response.json())
             .then((responseData)=> {
-                console.log(responseData)
                 App.clients.refresh = true;
                 this.props.navigator.pop();
             })
             .catch((error)=> {
                 console.log(error);
                 this.setState({
-                    serverError: true
-                });
-            })
-            .finally(()=> {
-                this.setState({
+                    serverError: true,
                     showProgress: false
                 });
-            });
+            })
     }
 
     render() {
@@ -93,6 +86,19 @@ class PhotosDetails extends Component {
             </Text>;
         }
 
+        if (this.state.showProgress) {
+            return (
+                <View style={{
+                    flex: 1,
+                    justifyContent: 'center'
+                }}>
+                    <ActivityIndicator
+                        size="large"
+                        animating={true}/>
+                </View>
+            );
+        }
+
         return (
             <ScrollView>
                 <View style={{
@@ -101,10 +107,6 @@ class PhotosDetails extends Component {
                     justifyContent: 'flex-start',
                     alignItems: 'center'
                 }}>
-
-                    {/*<Text style={styles.welcome1}>*/}
-                        {/*{this.state.pushEvent.uri}*/}
-                    {/*</Text>*/}
 
                     <Image
                         source={{uri: this.state.base64Image}}
