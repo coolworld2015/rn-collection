@@ -115,6 +115,8 @@ class Contacts extends Component {
             }
         })
             .then((responseData)=> {
+                App.clients.refresh = true;
+                this.props.navigator.pop();
             })
             .catch((error)=> {
                 console.log(error);
@@ -126,8 +128,6 @@ class Contacts extends Component {
                 this.setState({
                     showProgress: false
                 });
-                App.clients.refresh = true;
-                this.props.navigator.pop();
             });
     }
 
