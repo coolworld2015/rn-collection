@@ -26,6 +26,20 @@ class ContactDetails extends Component {
     }
 
     render() {
+        if (this.state.showProgress) {
+            return (
+                <View style={{
+                    flex: 1,
+                    justifyContent: 'center',
+                    backgroundColor: 'white'
+                }}>
+                    <ActivityIndicator
+                        size="large"
+                        animating={true}/>
+                </View>
+            );
+        }
+
         return (
             <ScrollView>
                 <View style={{

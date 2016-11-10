@@ -13,7 +13,8 @@ import {
     ActivityIndicator,
     TabBarIOS,
     NavigatorIOS,
-    TextInput
+    TextInput,
+    Alert
 } from 'react-native';
 
 import ContactDetails from './contactDetails';
@@ -91,10 +92,59 @@ class Contacts extends Component {
         return 0;
     }
 
+    deleteClient(id) {
+        this.setState({
+            showProgress: true
+        });
+
+        this.props.navigator.pop();
+
+        fetch('http://ui-collection.herokuapp.com/api/clients/delete/', {
+            method: 'POST',
+            body: JSON.stringify({
+                id: id
+            }),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+            .then((responseData)=> {
+            })
+            .catch((error)=> {
+                console.log(error);
+                this.setState({
+                    serverError: true
+                });
+            })
+            .finally(()=> {
+                this.setState({
+                    showProgress: false
+                });
+                App.clients.refresh = true;
+                this.props.navigator.pop();
+            });
+    }
+
     pressRow(rowData) {
         this.props.navigator.push({
             title: rowData.name,
             component: ContactDetails,
+            rightButtonTitle: 'Delete',
+            onRightButtonPress: () => {
+                Alert.alert(
+                    'Delete user',
+                    'Are you sure you want to delete client ' + rowData.name + '?',
+                    [
+                        {text: 'Cancel', onPress: () => console.log('Cancel Pressed!')},
+                        {
+                            text: 'OK', onPress: () => {
+                            this.deleteClient(rowData.id);
+                        }
+                        },
+                    ]
+                );
+            },
             passProps: {
                 pushEvent: rowData
             }
@@ -215,6 +265,18 @@ class Contacts extends Component {
                     animating={true}/>
             </View>;
         }
+
+        // if (this.state.showProgressDel) {
+        //     loader = <View style={{
+        //         justifyContent: 'center',
+        //         height: 100,
+        //         backgroundColor: 'white'
+        //     }}>
+        //         <ActivityIndicator
+        //             size="large"
+        //             animating={true}/>
+        //     </View>;
+        // }
 
         return (
             <View style={{flex: 1, justifyContent: 'center'}}>
