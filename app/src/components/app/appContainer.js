@@ -19,6 +19,7 @@ import {
 import Collection from '../collection/collection';
 import Search from '../search/search';
 import Contacts from '../contacts/contacts';
+import ContactAdd from '../contacts/contactAdd';
 import Photos from '../photos/photos';
 
 class AppContainer extends Component {
@@ -106,9 +107,17 @@ class AppContainer extends Component {
                         style={{
                             flex: 1
                         }}
+                        ref="contacts"
                         initialRoute={{
                             component: Contacts,
-                            title: 'Contacts'
+                            title: 'Contacts',
+                            rightButtonTitle: 'New',
+                            onRightButtonPress: () => {
+                                this.refs.contacts.navigator.push({
+                                    title: "Select",
+                                    component: Photos
+                                });
+                            }
                         }}
                     />
                 </TabBarIOS.Item>

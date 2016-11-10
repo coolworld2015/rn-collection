@@ -37,6 +37,18 @@ class Contacts extends Component {
         this.getContacts();
     }
 
+    componentWillUpdate() {
+        if (App.clients.refresh) {
+            App.clients.refresh = false;
+
+            this.setState({
+                showProgress: true
+            });
+
+            this.getContacts();
+        }
+    }
+
     getContacts() {
         console.log('getContacts');
         fetch('http://ui-collection.herokuapp.com/api/clients/get', {
@@ -144,7 +156,7 @@ class Contacts extends Component {
 
             setTimeout(() => {
                 this.getContacts()
-            }, 100);
+            }, 300);
         }
 
         if (this.state.filteredItems == undefined) {

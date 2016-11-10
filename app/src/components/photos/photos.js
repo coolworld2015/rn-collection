@@ -73,8 +73,12 @@ class Photos extends Component {
 
     pressRow(rowData) {
         this.props.navigator.push({
-            title: rowData.name,
+            title: 'New',
             component: PhotosDetails,
+            rightButtonTitle: 'Back',
+            onRightButtonPress: () => {
+                this.props.navigator.popToTop()
+            },
             passProps: {
                 pushEvent: rowData
             }
