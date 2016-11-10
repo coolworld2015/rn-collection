@@ -13,27 +13,21 @@ import {
     ActivityIndicator,
     TabBarIOS,
     NavigatorIOS,
-    TextInput,
-    NativeModules
+    TextInput
 } from 'react-native';
 
-class PhotosDetails extends Component {
+import Photos from '../photos/photos';
+
+class ContactAdd extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            pushEvent: props.pushEvent
-        };
-
-        NativeModules.ReadImageData.readImage(this.state.pushEvent.uri, (base64Image) => {
-            this.setState({
-                base64Image: 'data:image/jpg;base64,' + base64Image
-            });
-
-        });
+            showProgress: false
+        }
     }
 
-    addClient() {
+    addUser() {
         if (this.state.name == undefined ||
             this.state.description == undefined) {
             this.setState({
@@ -48,13 +42,12 @@ class PhotosDetails extends Component {
 
         var id = (Math.random() * 1000000).toFixed();
 
-        fetch('http://ui-collection.herokuapp.com/api/clients/add/', {
+        fetch('http://ui-base.herokuapp.com/api/users/add/', {
             method: 'POST',
             body: JSON.stringify({
                 id: id,
                 name: this.state.name,
-                pic: this.state.base64Image,
-                pics: [this.state.base64Image],
+                pass: this.state.pass,
                 description: this.state.description
             }),
             headers: {
@@ -64,20 +57,34 @@ class PhotosDetails extends Component {
         })
             .then((response)=> response.json())
             .then((responseData)=> {
-                App.clients.refresh = true;
-                this.props.navigator.popToTop();
+                App.users.refresh = true;
+                this.props.navigator.pop();
             })
             .catch((error)=> {
                 console.log(error);
                 this.setState({
-                    serverError: true,
-                    showProgress: false
+                    serverError: true
                 });
             })
+            .finally(()=> {
+                this.setState({
+                    showProgress: false
+                });
+            });
+    }
+
+    pressRow(rowData) {
+        this.props.navigator.push({
+            title: 'Photos',
+            component: Photos,
+            passProps: {
+                pushEvent: rowData
+            }
+        });
     }
 
     render() {
-        var errorCtrl, validCtrl;
+        var errorCtrl = <View />;
 
         if (this.state.serverError) {
             errorCtrl = <Text style={styles.error}>
@@ -85,18 +92,7 @@ class PhotosDetails extends Component {
             </Text>;
         }
 
-        if (this.state.showProgress) {
-            return (
-                <View style={{
-                    flex: 1,
-                    justifyContent: 'center'
-                }}>
-                    <ActivityIndicator
-                        size="large"
-                        animating={true}/>
-                </View>
-            );
-        }
+        var validCtrl = <View />;
 
         if (this.state.invalidValue) {
             validCtrl = <Text style={styles.error}>
@@ -113,15 +109,28 @@ class PhotosDetails extends Component {
                     alignItems: 'center'
                 }}>
 
-                    <Text style={styles.welcome1}>
-                        New contact
+                    <Text style={{
+                        fontSize: 24,
+                        textAlign: 'center',
+                        margin: 5,
+                        fontWeight: "bold"
+                    }}>
+                        New
                     </Text>
 
-                    <Image
-                        source={{uri: this.state.pushEvent.uri}}
-                        resizeMode='stretch'
-                        style={styles.img}
-                    />
+                    <TouchableHighlight
+                        onPress={()=> this.pressRow()}>
+                        <Image
+                            source={require('../../../no-img.png')}
+                            resizeMode='stretch'
+                            style={{
+                                height: 200,
+                                width: 200,
+                                borderRadius: 20,
+                                margin: 0
+                            }}
+                        />
+                    </TouchableHighlight>
 
                     <TextInput
                         onChangeText={(text)=> this.setState({
@@ -146,59 +155,44 @@ class PhotosDetails extends Component {
                     {validCtrl}
 
                     <TouchableHighlight
-                        onPress={()=> this.addClient()}
+                        onPress={()=> this.addUser()}
                         style={styles.button}>
                         <Text style={styles.buttonText}>Add</Text>
                     </TouchableHighlight>
 
                     {errorCtrl}
 
+
                 </View>
             </ScrollView>
-        );
+        )
     }
 }
 
 const styles = StyleSheet.create({
-    img: {
-        height: 250,
-        width: 250,
-        borderRadius: 20,
-        margin: 0
-    },
     AppContainer: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: 'gray',
+    },
+    countHeader: {
+        fontSize: 16,
+        textAlign: 'center',
+        padding: 15,
         backgroundColor: '#F5FCFF',
     },
-    welcome1: {
-        fontSize: 24,
+    countFooter: {
+        fontSize: 16,
         textAlign: 'center',
-        margin: 10,
-        marginTop: 5,
-        fontWeight: 'bold'
+        padding: 10,
+        borderColor: '#D7D7D7',
+        backgroundColor: 'whitesmoke'
     },
     welcome: {
-        fontSize: 18,
+        fontSize: 20,
         textAlign: 'center',
-        margin: 10,
-    },
-    container: {
-        backgroundColor: '#F5FCFF',
-        paddingTop: 40,
-        padding: 10,
-        alignItems: 'center',
-        flex: 1
-    },
-    logo: {
-        width: 66,
-        height: 65
-    },
-    heading: {
-        fontSize: 30,
-        margin: 10,
-        marginBottom: 20
+        margin: 20,
     },
     loginInput: {
         height: 50,
@@ -239,8 +233,15 @@ const styles = StyleSheet.create({
     },
     error: {
         color: 'red',
-        paddingTop: 10
+        paddingTop: 10,
+        textAlign: 'center'
+    },
+    img: {
+        height: 95,
+        width: 75,
+        borderRadius: 20,
+        margin: 20
     }
 });
 
-export default PhotosDetails;
+export default ContactAdd;

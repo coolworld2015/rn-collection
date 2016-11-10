@@ -33,49 +33,6 @@ class PhotosDetails extends Component {
         });
     }
 
-    addClient() {
-        if (this.state.name == undefined ||
-            this.state.description == undefined) {
-            this.setState({
-                invalidValue: true
-            });
-            return;
-        }
-
-        this.setState({
-            showProgress: true
-        });
-
-        var id = (Math.random() * 1000000).toFixed();
-
-        fetch('http://ui-collection.herokuapp.com/api/clients/add/', {
-            method: 'POST',
-            body: JSON.stringify({
-                id: id,
-                name: this.state.name,
-                pic: this.state.base64Image,
-                pics: [this.state.base64Image],
-                description: this.state.description
-            }),
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        })
-            .then((response)=> response.json())
-            .then((responseData)=> {
-                App.clients.refresh = true;
-                this.props.navigator.popToTop();
-            })
-            .catch((error)=> {
-                console.log(error);
-                this.setState({
-                    serverError: true,
-                    showProgress: false
-                });
-            })
-    }
-
     render() {
         var errorCtrl, validCtrl;
 
@@ -119,49 +76,15 @@ class PhotosDetails extends Component {
                         style={styles.img}
                     />
 
-                    <TextInput
-                        onChangeText={(text)=> this.setState({
-                            name: text,
-                            invalidValue: false
-                        })}
-                        style={styles.loginInput}
-                        value={this.state.name}
-                        placeholder="Name">
-                    </TextInput>
+                    <Text style={styles.welcome1}>
+                        {this.state.pushEvent.uri}
+                    </Text>
 
-                    <TextInput
-                        onChangeText={(text)=> this.setState({
-                            description: text,
-                            invalidValue: false
-                        })}
-                        style={styles.loginInput1}
-                        value={this.state.description}
-                        placeholder="Description">
-                    </TextInput>
-
-                    {validCtrl}
-
-                    <TouchableHighlight
-                        onPress={()=> this.addClient()}
-                        style={styles.button}>
-                        <Text style={styles.buttonText}>Add</Text>
-                    </TouchableHighlight>
-
-                    {errorCtrl}
-
-                    {/*<Image*/}
-                        {/*source={{uri: this.state.base64Image}}*/}
-                        {/*resizeMode='stretch'*/}
-                        {/*style={styles.img}*/}
-                    {/*/>*/}
-
-                    {/*{errorCtrl}*/}
-
-                    {/*<TouchableHighlight*/}
-                        {/*onPress={()=> this.addClient()}*/}
-                        {/*style={styles.button}>*/}
-                        {/*<Text style={styles.buttonText}>Add</Text>*/}
-                    {/*</TouchableHighlight>*/}
+                    <Image
+                        source={{uri: this.state.base64Image}}
+                        resizeMode='stretch'
+                        style={styles.img}
+                    />
 
                 </View>
             </ScrollView>

@@ -17,9 +17,9 @@ import {
     CameraRoll
 } from 'react-native';
 
-import PhotosDetails from './photosDetails';
+import ContactAdd from './contactAdd';
 
-class Photos extends Component {
+class ContactsPhotos extends Component {
     constructor(props) {
         super(props);
 
@@ -73,8 +73,12 @@ class Photos extends Component {
 
     pressRow(rowData) {
         this.props.navigator.push({
-            title: 'Photo',
-            component: PhotosDetails,
+            title: 'New',
+            component: ContactAdd,
+            rightButtonTitle: 'Back',
+            onRightButtonPress: () => {
+                this.props.navigator.popToTop()
+            },
             passProps: {
                 pushEvent: rowData
             }
@@ -266,4 +270,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default Photos;
+export default ContactsPhotos;

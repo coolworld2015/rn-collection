@@ -19,7 +19,7 @@ import {
 import Collection from '../collection/collection';
 import Search from '../search/search';
 import Contacts from '../contacts/contacts';
-import ContactAdd from '../contacts/contactAdd';
+import ContactsPhotos from '../contacts/contactsPhotos';
 import Photos from '../photos/photos';
 
 class AppContainer extends Component {
@@ -27,7 +27,7 @@ class AppContainer extends Component {
         super(props);
 
         this.state = {
-            selectedTab: 'Photos'
+            selectedTab: 'Contacts'
         };
 
         App = {
@@ -114,8 +114,8 @@ class AppContainer extends Component {
                             rightButtonTitle: 'New',
                             onRightButtonPress: () => {
                                 this.refs.contacts.navigator.push({
-                                    title: "Select",
-                                    component: Photos
+                                    title: "Choose photo",
+                                    component: ContactsPhotos
                                 });
                             }
                         }}
