@@ -140,6 +140,7 @@ class PhotosDetails extends Component {
                         })}
                         style={styles.loginInput1}
                         value={this.state.description}
+                        multiline={true}
                         placeholder="Description">
                     </TextInput>
 

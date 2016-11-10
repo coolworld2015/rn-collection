@@ -27,7 +27,7 @@ class AppContainer extends Component {
         super(props);
 
         this.state = {
-            selectedTab: 'Contacts'
+            selectedTab: 'Photos'
         };
 
         App = {
@@ -114,7 +114,7 @@ class AppContainer extends Component {
                             rightButtonTitle: 'New',
                             onRightButtonPress: () => {
                                 this.refs.contacts.navigator.push({
-                                    title: "Choose photo",
+                                    title: "Choose",
                                     component: ContactsPhotos
                                 });
                             }

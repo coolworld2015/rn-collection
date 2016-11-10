@@ -80,11 +80,11 @@ class PhotosDetails extends Component {
                         {this.state.pushEvent.uri}
                     </Text>
 
-                    <Image
-                        source={{uri: this.state.base64Image}}
-                        resizeMode='stretch'
-                        style={styles.img}
-                    />
+                    {/*<Image*/}
+                        {/*source={{uri: this.state.base64Image}}*/}
+                        {/*resizeMode='stretch'*/}
+                        {/*style={styles.img}*/}
+                    {/*/>*/}
 
                 </View>
             </ScrollView>
