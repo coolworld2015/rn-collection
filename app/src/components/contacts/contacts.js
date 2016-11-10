@@ -42,8 +42,14 @@ class Contacts extends Component {
         if (App.clients.refresh) {
             App.clients.refresh = false;
 
+            var ds = new ListView.DataSource({
+                rowHasChanged: (r1, r2) => r1 != r2
+            });
+
             this.setState({
-                showProgress: true
+                dataSource: ds.cloneWithRows([]),
+                showProgress: true,
+                resultsCount: 0
             });
 
             this.getContacts();
@@ -51,7 +57,6 @@ class Contacts extends Component {
     }
 
     getContacts() {
-        console.log('getContacts');
         fetch('http://ui-collection.herokuapp.com/api/clients/get', {
             method: 'get',
             headers: {
