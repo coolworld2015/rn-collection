@@ -39,7 +39,7 @@ class ContactsPhotos extends Component {
     }
 
     getPhotos() {
-        CameraRoll.getPhotos({first: 50})
+        CameraRoll.getPhotos({first: 5000})
             .then((data) => {
                 console.log(data);
                 var images = data.edges.map((asset) => {
