@@ -39,7 +39,7 @@ class Photos extends Component {
     }
 
     getPhotos() {
-        CameraRoll.getPhotos({first: 5000)
+        CameraRoll.getPhotos({first: 5000})
             .then((data) => {
                 console.log(data);
                 var images = data.edges.map((asset) => {
